@@ -1,79 +1,29 @@
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins-Regular"),
+    url("./assets/fonts/Poppins/Poppins-Regular.ttf");
+}
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
 body {
   line-height: 1;
-}
-ol, ul {
-  list-style: none;
-}
-blockquote, q {
-  quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-	content: none;
-}
-table {
-  border-collapse: collapse;
-	border-spacing: 0;
+  background-color: #eff1f4;
+  font-family: Poppins;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
+
+.with-border{
+  background-color: #0871FF !important;
+  border: transparent !important;
 }
 
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
+input,
+textarea,
+button  {
+  background-color: white !important;
+  border: none !important;
 }
 
-* {
-  line-height: calc(1em + 0.5rem);
-}
 
-body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-html, body {
-  height: 100%;
-}
-
-* {
-  margin: 0;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-#root, #__next {
-  isolation: isolate;
-  padding: 0;
-}
+/* * {
+  outline: 1px solid red;
+} */
