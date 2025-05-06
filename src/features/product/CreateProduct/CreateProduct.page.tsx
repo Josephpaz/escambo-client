@@ -1,10 +1,10 @@
 import {Field} from "@/components/ui/field";
-import {SelectCustom} from "@/components/ui/native-select";
+import {Input} from "@/components/ui/input";
+import {SelectCustom} from "@/components/ui/select";
 import {
   Button,
   CardBody,
   CardRoot,
-  Input,
   Stack,
   Text,
   Textarea,
@@ -21,19 +21,16 @@ const categorias = [
 export function CreateProduct() {
   return (
     <Stack justifyItems={"center"} alignItems={"center"}>
-      <Text textStyle={"4xl"} color="#1DAF87" mt='12'>
+      <Text textStyle={"4xl"} color="#1DAF87" mt="12">
         Incluir Item para troca
       </Text>
       <Stack gap={4} marginTop={2}>
         <Field label="Título" color="#373E4B">
-          <Input
-            className="without-border"
-            placeholder="Título do produto"
-            size="xs"
-          />
+          <Input visual='without-border' placeholder="Título do produto" size="xs" />
         </Field>
         <SelectCustom
           label="Categoria"
+          visual={'without-border'}
           placeholder="Selecione a categoria"
           options={categorias}
           color={"#373E4B"}

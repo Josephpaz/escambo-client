@@ -1,8 +1,11 @@
+import {selectRecipe} from "@/theme/components/select.recipe";
 import {
   Select,
   Portal,
   createListCollection,
   SelectRootProps,
+  RecipeVariantProps,
+  useRecipe,
 } from "@chakra-ui/react";
 
 interface Option {
@@ -16,12 +19,18 @@ interface SelectCustomProps extends Omit<SelectRootProps, "collection"> {
   placeholder?: string;
 }
 
-export function SelectCustom({
-  label,
-  options,
-  placeholder = "Selecione uma opção",
-  ...rest
-}: SelectCustomProps) {
+type SelectVariantProps = RecipeVariantProps<typeof selectRecipe> &
+  SelectCustomProps;
+
+export interface SelectProps
+  extends React.PropsWithChildren<SelectVariantProps> {}
+
+export function SelectCustom(props: SelectProps) {
+  const {label, options, placeholder = "Selecione uma opção"} = props;
+  const recipe = useRecipe({recipe: selectRecipe});
+  const [recipeProps, restProps] = recipe.splitVariantProps(props);
+  const styles = recipe(recipeProps);
+
   const collection = createListCollection({
     items: options,
     itemToString: (item) => item.label,
@@ -29,10 +38,10 @@ export function SelectCustom({
   });
 
   return (
-    <Select.Root collection={collection} {...rest}>
+    <Select.Root collection={collection} {...restProps}>
       <Select.HiddenSelect />
       {label && <Select.Label color="#373E4B">{label}</Select.Label>}
-      <Select.Control className="without-border">
+      <Select.Control css={styles}>
         <Select.Trigger>
           <Select.ValueText placeholder={placeholder} />
         </Select.Trigger>
