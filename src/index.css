@@ -9,3 +9,11 @@ body {
   background-color: #eff1f4;
   font-family: Poppins;
 }
+
+html, body, #__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto; /* Isso garante scroll vertical */
+}

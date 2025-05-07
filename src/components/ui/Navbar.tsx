@@ -15,7 +15,7 @@ import { CustomBreadcrumb } from './CustomBreadcrumb';
 
 export function NavBar() {
     return (
-        <Stack bg="#EFF1F4" minH="100vh">
+        <Stack bg="#EFF1F4">
             {/* Header */}
             <Box bg="#1DAF87" py={3} px={8} h='86px'>
                 <Flex align="center">
@@ -53,6 +53,7 @@ export function NavBar() {
                 </Flex>
             </Box>
             <CustomBreadcrumb />
+
         </Stack>
     );
 }
