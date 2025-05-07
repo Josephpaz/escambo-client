@@ -1,6 +1,6 @@
-import {Field} from "@/components/ui/field";
-import {Input} from "@/components/ui/input";
-import {SelectCustom} from "@/components/ui/select";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { SelectCustom } from "@/components/ui/select";
 import {
   Button,
   CardBody,
@@ -9,7 +9,7 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import {Image} from "lucide-react";
+import { Image } from "lucide-react";
 
 const categorias = [
   {label: "Eletrônicos", value: "eletronicos"},
