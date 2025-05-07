@@ -1,4 +1,5 @@
 // import App from "@/App";
+import { Layout } from "@/components/ui/Layout";
 import { Favoritos } from "@/features/Favoritos";
 import { HistoricoTrocas } from "@/features/HistoricoTrocas";
 import { HomeWeb } from "@/features/HomeWeb";
@@ -8,12 +9,14 @@ import { BrowserRouter, Route, Routes } from "react-router";
 export function AppRouter() {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<HomeWeb/>} />
-      <Route path="/product" element={<CreateProduct/>} />
-      <Route path="/history" element={<HistoricoTrocas/>} />
-      <Route path="/favorits" element={<Favoritos/>}/>
-    </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomeWeb />} />
+          <Route path="/product" element={<CreateProduct />} />
+          <Route path="/history" element={<HistoricoTrocas />} />
+          <Route path="/favorits" element={<Favoritos />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   )
 }
