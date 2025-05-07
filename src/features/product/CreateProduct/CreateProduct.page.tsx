@@ -21,7 +21,7 @@ const categorias = [
 export function CreateProduct() {
   return (
     <Stack justifyItems={"center"} alignItems={"center"}>
-      <Text textStyle={"4xl"} color="#1DAF87" mt="12">
+      <Text textStyle={"4xl"} color="#1DAF87" mt="12" fontWeight={"700"}>
         Incluir Item para troca
       </Text>
       <Stack gap={4} marginTop={2}>
