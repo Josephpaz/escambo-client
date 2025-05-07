@@ -1,4 +1,6 @@
 // import App from "@/App";
+import { HistoricoTrocas } from "@/features/HistoricoTrocas";
+import { HomeWeb } from "@/features/HomeWeb";
 import { CreateProduct } from "@/features/product/CreateProduct/CreateProduct.page";
 import { BrowserRouter, Route, Routes } from "react-router";
 
@@ -6,8 +8,9 @@ export function AppRouter() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/" element={<CreateProduct/>} />
+      <Route path="/" element={<HomeWeb/>} />
       <Route path="/product" element={<CreateProduct/>} />
+      <Route path="/history" element={<HistoricoTrocas/>} />
     </Routes>
     </BrowserRouter>
   )
