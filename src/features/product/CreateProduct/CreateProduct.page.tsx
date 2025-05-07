@@ -1,3 +1,4 @@
+import { API } from "@/axios";
 import {Field} from "@/components/ui/field";
 import {Input} from "@/components/ui/input";
 import {SelectCustom} from "@/components/ui/select";
@@ -15,7 +16,7 @@ import {useForm, Controller} from "react-hook-form";
 
 type CreateProductForm = {
   title: string;
-  category: string[];
+  categoryId: string[];
   description: string;
 };
 
@@ -28,7 +29,6 @@ const categorias = [
 
 export function CreateProduct() {
   const {
-    register,
     handleSubmit,
     control,
     setValue,
@@ -36,13 +36,13 @@ export function CreateProduct() {
   } = useForm<CreateProductForm>({
     defaultValues: {
       title: "",
-      category: [],
+      categoryId: [],
       description: "",
     },
   });
 
   const onSubmit = (data: CreateProductForm) => {
-    console.log(data);
+    console.log(data.categoryId);
   };
 
   console.log(errors);
@@ -75,11 +75,11 @@ export function CreateProduct() {
           </Field>
 
           <Field
-            invalid={!!errors.category}
-            errorText={errors.category?.message}
+            invalid={!!errors.categoryId}
+            errorText={errors.categoryId?.message}
           >
             <Controller
-              name="category"
+              name="categoryId"
               control={control}
               rules={{required: REQUIRED_FIELD}}
               render={({field}) => (
@@ -91,9 +91,9 @@ export function CreateProduct() {
                   color="#373E4B"
                   size="xs"
                   width="320px"
-                  onValueChange={(e) => setValue("category", e.value)}
+                  value={field.value}
+                  onValueChange={({value}) => field.onChange(value)}
                   isClearable
-                  {...field}
                 />
               )}
             />
