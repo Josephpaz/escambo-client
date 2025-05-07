@@ -10,7 +10,6 @@ export const selectRecipe = defineRecipe({
         bg: "white",
         border: "1px solid white",
         outline: "1px solid white",
-        
       },
     },
   },
