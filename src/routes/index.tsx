@@ -1,4 +1,5 @@
 // import App from "@/App";
+import { Favoritos } from "@/features/Favoritos";
 import { HistoricoTrocas } from "@/features/HistoricoTrocas";
 import { HomeWeb } from "@/features/HomeWeb";
 import { CreateProduct } from "@/features/product/CreateProduct/CreateProduct.page";
@@ -11,6 +12,7 @@ export function AppRouter() {
       <Route path="/" element={<HomeWeb/>} />
       <Route path="/product" element={<CreateProduct/>} />
       <Route path="/history" element={<HistoricoTrocas/>} />
+      <Route path="/favorits" element={<Favoritos/>}/>
     </Routes>
     </BrowserRouter>
   )
