@@ -38,7 +38,7 @@ export function CreateProduct() {
           width="320px"
         />
         <Field label="Descrição" color="#373E4B">
-          <Textarea fontSize={"xs"} />
+          <Textarea fontSize={"xs"} bg={'white'} border={'none'}/>
         </Field>
 
         <Field label="Fotos" color="#373E4B">

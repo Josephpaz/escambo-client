@@ -6,7 +6,14 @@ export const inputRecipe = defineRecipe({
   },
   variants: {
     visual: {
-      "without-border": {bg: "white", color: "primary", border: "none"},
+      "without-border": {
+        _focus: {
+          outline: 'none',
+          border: '1px solid red'
+        },
+        bg: "white",
+        border: "1px solid white",
+      },
     },
   },
 });

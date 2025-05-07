@@ -6,7 +6,11 @@ export const selectRecipe = defineRecipe({
   },
   variants: {
     visual: {
-      "without-border": {bg: "white", color: "primary", border: "none"},
+      "without-border": {
+        bg: "white",
+        border: "1px solid white",
+        outline: "1px solid white",
+      },
     },
   },
 });
