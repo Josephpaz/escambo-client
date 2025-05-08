@@ -7,6 +7,8 @@ import {
   VStack
 } from "@chakra-ui/react";
 
+import { FaArrowRight } from "react-icons/fa6";
+
 interface Produto {
   nome: string;
   categoria: string;
@@ -17,7 +19,7 @@ interface Produto {
 interface TrocaCardProps {
   produto1: Produto;
   produto2: Produto;
-  status: "ACEITA" | "RECUSADA" | "PENDENTE";
+  status: string;
 }
 
 export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
@@ -29,10 +31,11 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
       alignItems={'center'}
       textAlign={'center'}
       w="1205px"
-      h={'151px'}
+      h={'130px'}
+      mt={5}
       mx="auto"
     >
-      <HStack p={3} justifyContent={'space-between'} display={'flex'} alignItems={'center'}>
+      <HStack p={2} justifyContent={'space-between'} display={'flex'} alignItems={'center'}>
         <HStack>
           <Image
             src={produto1.imagem}
@@ -52,8 +55,8 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
             </Text>
           </VStack>
         </HStack>
-
-        <HStack>
+        <FaArrowRight size={45} color="#A0AEC0"/>
+        <HStack ml={15}>
           <Image
             src={produto2.imagem}
             alt={produto2.nome}

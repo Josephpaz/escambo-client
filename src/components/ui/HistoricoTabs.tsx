@@ -7,9 +7,77 @@ import {
     Text
 } from "@chakra-ui/react";
 
+
 import FogaoPng from '@/assets/fogao.png';
 import GeladeiraPng from '@/assets/geladeira.png';
 import { TrocaCard } from "./TrocaCard";
+
+const trocas = {
+    enviadas: [
+        {
+            produto1: {
+                nome: "Geladeira",
+                categoria: "Eletrodomésticos",
+                usuario: "Samuel Gomes",
+                imagem: GeladeiraPng,
+            },
+            produto2: {
+                nome: "Fogão",
+                categoria: "Eletrodomésticos",
+                usuario: "Marcos Araújo",
+                imagem: FogaoPng,
+            },
+            status: "ACEITA",
+        },
+        {
+            produto1: {
+                nome: "Geladeira",
+                categoria: "Eletrodomésticos",
+                usuario: "Samuel Gomes",
+                imagem: GeladeiraPng,
+            },
+            produto2: {
+                nome: "Fogão",
+                categoria: "Eletrodomésticos",
+                usuario: "Marcos Araújo",
+                imagem: FogaoPng,
+            },
+            status: "RECUSADA",
+        },
+        {
+            produto1: {
+                nome: "Geladeira",
+                categoria: "Eletrodomésticos",
+                usuario: "Samuel Gomes",
+                imagem: GeladeiraPng,
+            },
+            produto2: {
+                nome: "Fogão",
+                categoria: "Eletrodomésticos",
+                usuario: "Marcos Araújo",
+                imagem: FogaoPng,
+            },
+            status: "PENDENTE",
+        },
+    ],
+    recebidas: [
+        {
+            produto1: {
+                nome: "Fogão",
+                categoria: "Eletrodomésticos",
+                usuario: "Marcos Araújo",
+                imagem: FogaoPng,
+            },
+            produto2: {
+                nome: "Geladeira",
+                categoria: "Eletrodomésticos",
+                usuario: "Samuel Gomes",
+                imagem: GeladeiraPng,
+            },
+            status: "RECUSADA",
+        },
+    ],
+};
 
 export function HistoricoTabs() {
     return (
@@ -47,39 +115,26 @@ export function HistoricoTabs() {
                     </TabsList>
 
                     <TabsContent value="aceitas">
-                        <TrocaCard
-                            produto1={{
-                                nome: "Geladeira",
-                                categoria: "Eletrodomésticos",
-                                usuario: "Samuel Gomes",
-                                imagem: GeladeiraPng,
-                            }}
-                            produto2={{
-                                nome: "Fogão",
-                                categoria: "Eletrodomésticos",
-                                usuario: "Marcos Araújo",
-                                imagem: FogaoPng,
-                            }}
-                            status="ACEITA"
-                        />
+                        {trocas.enviadas.map((troca, index) => (
+                            <TrocaCard
+                                key={index}
+                                produto1={troca.produto1}
+                                produto2={troca.produto2}
+                                status={troca.status}
+                                
+                            />
+                        ))}
                     </TabsContent>
-                    <TabsContent value="recusadas">
-                        <TrocaCard
-                            produto1={{
-                                nome: "Fogão",
-                                categoria: "Eletrodomésticos",
-                                usuario: "Marcos Araújo",
-                                imagem: FogaoPng,
-                            }}
-                            produto2={{
-                                nome: "Geladeira",
-                                categoria: "Eletrodomésticos",
-                                usuario: "Samuel Gomes",
-                                imagem: GeladeiraPng,
-                            }}
 
-                            status="RECUSADA"
-                        />
+                    <TabsContent value="recusadas" mt={2}>
+                        {trocas.recebidas.map((troca, index) => (
+                            <TrocaCard
+                                key={index}
+                                produto1={troca.produto1}
+                                produto2={troca.produto2}
+                                status={troca.status}
+                            />
+                        ))}
                     </TabsContent>
                 </TabsRoot>
             </Stack>
