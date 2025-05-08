@@ -7,13 +7,17 @@ import {
     Text
 } from "@chakra-ui/react";
 
+import FogaoPng from '@/assets/fogao.png';
+import GeladeiraPng from '@/assets/geladeira.png';
+import { TrocaCard } from "./TrocaCard";
+
 export function HistoricoTabs() {
     return (
         <Stack px={5} pb={5} textAlign={'center'}>
             <Text color={'#1DAF87'} fontSize={32} mb={5} fontWeight={'bolder'}>Histórico de Trocas</Text>
-            <Stack px={5} pb={5}>
-                <TabsRoot defaultValue="aceitas">
-                    <TabsList gap={4} >
+            <Stack px={5} pb={5} >
+                <TabsRoot defaultValue="aceitas" >
+                    <TabsList gap={4}>
                         <TabsTrigger
                             value="aceitas"
                             _selected={{
@@ -43,10 +47,39 @@ export function HistoricoTabs() {
                     </TabsList>
 
                     <TabsContent value="aceitas">
-                        <Text color={'#4A4F59'}>Exibindo trocas aceitas</Text>
+                        <TrocaCard
+                            produto1={{
+                                nome: "Geladeira",
+                                categoria: "Eletrodomésticos",
+                                usuario: "Samuel Gomes",
+                                imagem: GeladeiraPng,
+                            }}
+                            produto2={{
+                                nome: "Fogão",
+                                categoria: "Eletrodomésticos",
+                                usuario: "Marcos Araújo",
+                                imagem: FogaoPng,
+                            }}
+                            status="ACEITA"
+                        />
                     </TabsContent>
                     <TabsContent value="recusadas">
-                        <Text color={'#4A4F59'}>Exibindo trocas recusadas</Text>
+                        <TrocaCard
+                            produto1={{
+                                nome: "Fogão",
+                                categoria: "Eletrodomésticos",
+                                usuario: "Marcos Araújo",
+                                imagem: FogaoPng,
+                            }}
+                            produto2={{
+                                nome: "Geladeira",
+                                categoria: "Eletrodomésticos",
+                                usuario: "Samuel Gomes",
+                                imagem: GeladeiraPng,
+                            }}
+
+                            status="RECUSADA"
+                        />
                     </TabsContent>
                 </TabsRoot>
             </Stack>
