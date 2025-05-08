@@ -76,7 +76,7 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
           </VStack>
         </HStack>
 
-        {/* Status */}
+    
         <Badge
           mr={12}
           fontWeight={'extrabold'}
