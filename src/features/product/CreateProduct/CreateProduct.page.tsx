@@ -43,7 +43,7 @@ export function CreateProduct() {
             width="320px"
           />
           <Field label="Descrição" color="#373E4B">
-            <Textarea fontSize={"xs"} bg={'white'} border={'none'} />
+            <Textarea fontSize={"xs"} bg={'white'} border={'none'} placeholder="Descreva seu produto"/>
           </Field>
 
           <Field label="Fotos" color="#373E4B">
@@ -56,7 +56,7 @@ export function CreateProduct() {
               overflow="hidden"
               p={1}
             >
-              <FileUpload.Root width="full" height="full" alignItems="center" justifyContent="center" maxFiles={2}>
+              <FileUpload.Root width="full" height="full" alignItems="center" justifyContent="center" maxFiles={2} cursor={'pointer'}>
                 <FileUpload.HiddenInput />
 
                 <FileUpload.Dropzone
@@ -69,7 +69,7 @@ export function CreateProduct() {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  <Icon as={LuUpload} boxSize={4} mb={1} color="gray.500" />
+                  <Icon as={LuUpload} boxSize={6} mt={2} color="gray.500" />
                   <FileUpload.DropzoneContent textAlign="center">
                     <Box fontSize="xs" color={'gray.500'}>.png, .jpg até 5MBs</Box>
                   </FileUpload.DropzoneContent>
@@ -79,10 +79,10 @@ export function CreateProduct() {
             <Button
               colorPalette={"blue"}
               className="with-border"
-              size={"xs"}
-              fontSize={"sm"}
-              width={"126px"}
-              fontWeight={"700"}
+              h={'32px'}
+              fontSize={"14px"}
+              w={'126px'}
+              fontWeight={"bold"}
             >
               Incluir
             </Button>
