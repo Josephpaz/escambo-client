@@ -27,7 +27,7 @@ export function CustomBreadcrumb() {
         <BreadcrumbItem key={href}>
           <BreadcrumbLink
             href={href}
-            color={isLast ? "#373E4B" : "#718096"}
+            color={isLast ? "#373E4B" : "#232D3D"}
             _hover={{ color: "teal.700", textDecoration: "underline" }}
             fontWeight={isLast ? "semibold" : "normal"}
           >

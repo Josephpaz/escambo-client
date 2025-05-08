@@ -26,7 +26,7 @@ export function CreateProduct() {
     <Stack spaceX={6}>
       <NavBar />
       <Stack justifyItems={"center"} alignItems={"center"}>
-        <Text color={'#1DAF87'} fontSize={36} fontWeight={'bold'}>
+        <Text color={'#1DAF87'} fontSize={32} mb={5} fontWeight={'bolder'}>
           Incluir Item para troca
         </Text>
         <Stack gap={4} marginTop={2}>

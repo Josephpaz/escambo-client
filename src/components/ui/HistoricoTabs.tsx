@@ -9,19 +9,15 @@ import {
 
 export function HistoricoTabs() {
     return (
-        <Stack  pt={15} px={12} pb={10} textAlign={'center'}>
-            <Text color={'#1DAF87'} fontSize={24} fontWeight={'bold'}>Histórico de Trocas</Text>
-            <Stack pt={15} px={12} pb={10}>
+        <Stack px={5} pb={5} textAlign={'center'}>
+            <Text color={'#1DAF87'} fontSize={32} mb={5} fontWeight={'bolder'}>Histórico de Trocas</Text>
+            <Stack px={5} pb={5}>
                 <TabsRoot defaultValue="aceitas">
-                    <TabsList
-                        borderBottom="2px solid #B0B7C3"
-                        gap={4}
-                    >
+                    <TabsList gap={4} >
                         <TabsTrigger
                             value="aceitas"
                             _selected={{
                                 color: "#24B384",
-                                borderBottom: "2px solid #1DAF87",
                             }}
                             _focus={{ boxShadow: "none" }}
                             bg="transparent"
@@ -35,7 +31,6 @@ export function HistoricoTabs() {
                             value="recusadas"
                             _selected={{
                                 color: "#24B384",
-                                borderBottom: "2px solid #1DAF87",
                             }}
                             _focus={{ boxShadow: "none" }}
                             bg="transparent"
