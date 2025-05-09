@@ -1,9 +1,15 @@
-import LogoPng from "@/assets/Logo.png";
+import LogoPng from "@/../public/Logomarca.png";
 import {Box, Flex, Image, Link, LinkProps, Stack, Text} from "@chakra-ui/react";
 import {Avatar} from "./Avatar";
 import {CustomBreadcrumb} from "./CustomBreadcrumb";
+import {ReactNode} from "react";
 
 type RenderLinkProps = LinkProps;
+type ChildrenLinks = {
+  children: ReactNode;
+  href: string;
+};
+
 export function RenderLink(props: RenderLinkProps) {
   const {children} = props;
   return (
@@ -18,24 +24,39 @@ export function RenderLink(props: RenderLinkProps) {
   );
 }
 
-const childrenLinks: LinkProps["children"][] = [
-  <Image
-    src={LogoPng}
-    h={53}
-    w={284}
-    mr="-3rem"
-    cursor={"pointer"}
-    textDecoration={"none"}
-  />,
-  <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
-    Histórico
-  </Text>,
-  <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
-    Incluir Item
-  </Text>,
-  <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
-    Favoritos
-  </Text>,
+const childrenLinks: ChildrenLinks[] = [
+  {
+    href: "history",
+    children: (
+      <Text
+        color="white"
+        fontWeight="normal"
+        fontSize={16}
+        cursor="pointer"
+        textAlign={"center"}
+      >
+        Histórico
+      </Text>
+    ),
+  },
+
+  {
+    href: "post",
+    children: (
+      <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
+        Incluir Item
+      </Text>
+    ),
+  },
+
+  {
+    href: "favorits",
+    children: (
+      <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
+        Favoritos
+      </Text>
+    ),
+  },
 ];
 
 export function NavBar() {
@@ -44,12 +65,34 @@ export function NavBar() {
       {/* Header */}
       <Box bg="#1DAF87" py={3} px={8} h="86px">
         <Flex align="center" justifyContent={"space-between"}>
-          {childrenLinks.map((childrenLink) => (
-            <RenderLink
-              key={childrenLink!.toString()}
-              children={childrenLink}
-            />
-          ))}
+          <Flex align={"center"}>
+            <RenderLink textDecoration={"none"} href="/">
+              <Image
+                src={LogoPng}
+                h={53}
+                w={53}
+                cursor={"pointer"}
+                textDecoration={"none"}
+              />
+              <Text
+                color={"white"}
+                fontSize={50}
+                fontWeight={"bolder"}
+                textDecoration={"none"}
+              >
+                Escambo
+              </Text>
+            </RenderLink>
+          </Flex>
+          <Flex gap={"8.8rem"}>
+            {childrenLinks.map((link) => (
+              <RenderLink
+                key={link.href}
+                children={link.children}
+                href={link.href}
+              />
+            ))}
+          </Flex>
           <Avatar />
         </Flex>
       </Box>
