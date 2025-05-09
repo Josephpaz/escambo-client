@@ -32,7 +32,7 @@ export function Avatar() {
             <AvatarFallback name={usuario.name} />
             <AvatarImage src={usuario.avatar} />
           </AvatarRoot>
-          <Stack mr={18} alignItems="center" py={3} gap={0}>
+          <Stack alignItems="center" py={3} gap={0}>
             <Text color="white" fontWeight="bold" fontSize={14}>
               {usuario.name}
             </Text>

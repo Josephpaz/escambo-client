@@ -69,14 +69,14 @@ export function NavBar() {
             <RenderLink textDecoration={"none"} href="/">
               <Image
                 src={LogoPng}
-                h={53}
-                w={53}
+                h={50}
+                w={50}
                 cursor={"pointer"}
                 textDecoration={"none"}
               />
               <Text
                 color={"white"}
-                fontSize={50}
+                fontSize={36}
                 fontWeight={"bolder"}
                 textDecoration={"none"}
               >
@@ -84,7 +84,7 @@ export function NavBar() {
               </Text>
             </RenderLink>
           </Flex>
-          <Flex gap={"8.8rem"}>
+          <Flex gap={"8.8rem"} mt="8">
             {childrenLinks.map((link) => (
               <RenderLink
                 key={link.href}
