@@ -3,7 +3,7 @@ import { Layout } from "@/components/ui/Layout";
 import { Favoritos } from "@/features/Favoritos";
 import { HistoricoTrocas } from "@/features/HistoricoTrocas";
 // import { HomeWeb } from "@/features/HomeWeb";
-import { CreateProduct } from "@/features/product/CreateProduct/CreateProduct.page";
+import { CreatePost } from "@/features/post/CreatePost/CreatePost.page";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 export function AppRouter() {
@@ -11,7 +11,7 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="post" element={<CreateProduct />} />
+          <Route path="post" element={<CreatePost />} />
           <Route path="history" element={<HistoricoTrocas />} />
           <Route path="favorits" element={<Favoritos />} />
         </Route>
