@@ -1,8 +1,8 @@
-import { API } from "@/axios";
 import {Field} from "@/components/ui/field";
 import {Input} from "@/components/ui/input";
 import {SelectCustom} from "@/components/ui/select";
 import {REQUIRED_FIELD} from "@/helpers/constants.helper";
+import { PostService } from "@/service/post/post.service";
 import {
   Button,
   CardBody,
@@ -14,7 +14,7 @@ import {
 import {Image} from "lucide-react";
 import {useForm, Controller} from "react-hook-form";
 
-type CreateProductForm = {
+type CreatePostForm = {
   title: string;
   categoryId: string[];
   description: string;
@@ -27,13 +27,12 @@ const categorias = [
   {label: "Outros", value: "outros"},
 ];
 
-export function CreateProduct() {
+export function CreatePost() {
   const {
     handleSubmit,
     control,
-    setValue,
     formState: {errors},
-  } = useForm<CreateProductForm>({
+  } = useForm<CreatePostForm>({
     defaultValues: {
       title: "",
       categoryId: [],
@@ -41,11 +40,19 @@ export function CreateProduct() {
     },
   });
 
-  const onSubmit = (data: CreateProductForm) => {
-    console.log(data.categoryId);
+  const onSubmit = async (data: CreatePostForm) => {
+
+    const payload: PostService.CreateProps = {
+      categoria: data.categoryId[0],
+      descricao: data.description,
+      imagem_url: "https://exemplo.com/imagem.jpg",
+      titulo: data.title,
+      user_id: "cb1b93b1-ef61-470e-a076-4dc2fbd70314",
+    }
+
+    await PostService.create(payload);
   };
 
-  console.log(errors);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack justifyItems={"center"} alignItems={"center"}>

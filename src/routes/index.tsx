@@ -1,7 +1,7 @@
 // import App from "@/App";
 import { HistoricoTrocas } from "@/features/HistoricoTrocas";
 import { HomeWeb } from "@/features/HomeWeb";
-import { CreateProduct } from "@/features/product/CreateProduct/CreateProduct.page";
+import { CreatePost } from "@/features/post/CreatePost/CreatePost.page";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 export function AppRouter() {
@@ -9,7 +9,7 @@ export function AppRouter() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<HomeWeb/>} />
-      <Route path="/product" element={<CreateProduct/>} />
+      <Route path="/product" element={<CreatePost/>} />
       <Route path="/history" element={<HistoricoTrocas/>} />
     </Routes>
     </BrowserRouter>
