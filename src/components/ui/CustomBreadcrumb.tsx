@@ -3,15 +3,15 @@ import {
   BreadcrumbLink,
   BreadcrumbRoot,
   BreadcrumbSeparator,
-  Stack
+  Stack,
 } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 const routeNameMap: Record<string, string> = {
   "": "Home",
-  "history": "Histórico",
-  "product": "Incluir Item",
-  "favorits": "Favoritos"
+  history: "Histórico",
+  post: "Incluir Item",
+  favorits: "Favoritos",
 };
 
 export function CustomBreadcrumb() {
@@ -28,7 +28,7 @@ export function CustomBreadcrumb() {
           <BreadcrumbLink
             href={href}
             color={isLast ? "#373E4B" : "#232D3D"}
-            _hover={{ color: "teal.700", textDecoration: "underline" }}
+            _hover={{color: "teal.700", textDecoration: "underline"}}
             fontWeight={isLast ? "semibold" : "normal"}
           >
             {routeNameMap[segment] || segment}
@@ -42,15 +42,18 @@ export function CustomBreadcrumb() {
   return (
     <Stack p={5} ml={5}>
       <BreadcrumbRoot
-        display="flex"        
+        display="flex"
         alignItems="center"
         fontWeight="semibold"
         fontSize="sm"
-        gap={2}      
-        listStyle={'none'}       
+        gap={2}
+        listStyle={"none"}
       >
         <BreadcrumbItem>
-          <BreadcrumbLink href="/" _hover={{ color: "teal.700", textDecoration: "underline" }}>
+          <BreadcrumbLink
+            href="/"
+            _hover={{color: "teal.700", textDecoration: "underline"}}
+          >
             Home
           </BreadcrumbLink>
         </BreadcrumbItem>

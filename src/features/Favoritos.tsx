@@ -1,7 +1,5 @@
-import { NavBar } from "@/components/ui/Navbar";
+import {NavBar} from "@/components/ui/Navbar";
 
-export function Favoritos(){
-    return (
-        <NavBar/>
-    )
+export function Favoritos() {
+  return <></>;
 }

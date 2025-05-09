@@ -1,59 +1,106 @@
+import LogoPng from "@/../public/Logomarca.png";
+import {Box, Flex, Image, Link, LinkProps, Stack, Text} from "@chakra-ui/react";
+import {Avatar} from "./Avatar";
+import {CustomBreadcrumb} from "./CustomBreadcrumb";
+import {ReactNode} from "react";
 
-import LogoPng from '@/assets/Logo.png';
-import {
-    Box,
-    Flex,
-    HStack,
-    Image,
-    Link,
-    Spacer,
-    Stack,
-    Text
-} from "@chakra-ui/react";
-import { Avatar } from './Avatar';
-import { CustomBreadcrumb } from './CustomBreadcrumb';
+type RenderLinkProps = LinkProps;
+type ChildrenLinks = {
+  children: ReactNode;
+  href: string;
+};
+
+export function RenderLink(props: RenderLinkProps) {
+  const {children} = props;
+  return (
+    <Link
+      _active={{color: "#A0EACB", transform: "scale(0.95)"}}
+      _hover={{color: "#CFFCEE", transform: "scale(1.05)"}}
+      transition="all 0.2s ease"
+      {...props}
+    >
+      {children}
+    </Link>
+  );
+}
+
+const childrenLinks: ChildrenLinks[] = [
+  {
+    href: "history",
+    children: (
+      <Text
+        color="white"
+        fontWeight="normal"
+        fontSize={16}
+        cursor="pointer"
+        textAlign={"center"}
+      >
+        Histórico
+      </Text>
+    ),
+  },
+
+  {
+    href: "post",
+    children: (
+      <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
+        Incluir Item
+      </Text>
+    ),
+  },
+
+  {
+    href: "favorits",
+    children: (
+      <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
+        Favoritos
+      </Text>
+    ),
+  },
+];
 
 export function NavBar() {
-    return (
-        <Stack bg="#EFF1F4">
-            {/* Header */}
-            <Box bg="#1DAF87" py={3} px={8} h='86px'>
-                <Flex align="center">
-                    <Link href='/' _hover={{ color: "#CFFCEE", transform: "scale(1.05)" }}
-                        _active={{ color: "#A0EACB", transform: "scale(0.95)" }}
-                        transition="all 0.2s ease">
-                        <Image src={LogoPng} h={53} w={284} cursor={'pointer'} textDecoration={'none'} />
-                    </Link>
-                    <Spacer />
-                    <HStack spaceX={20} mt={8} alignItems={'center'} textAlign={'center'}>
-                        <Link href="/history" textDecoration="none" _hover={{ color: "#CFFCEE", transform: "scale(1.05)" }}
-                            _active={{ color: "#A0EACB", transform: "scale(0.95)" }}
-                            transition="all 0.2s ease">
-                            <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
-                                Histórico
-                            </Text>
-                        </Link>
-                        <Link href="/product" textDecoration="none" _hover={{ color: "#CFFCEE", transform: "scale(1.05)" }}
-                            _active={{ color: "#A0EACB", transform: "scale(0.95)" }}
-                            transition="all 0.2s ease">
-                            <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
-                                Incluir Item
-                            </Text>
-                        </Link>
-                        <Link href="/favorits" textDecoration="none" _hover={{ color: "#CFFCEE", transform: "scale(1.05)" }}
-                            _active={{ color: "#A0EACB", transform: "scale(0.95)" }}
-                            transition="all 0.2s ease">
-                            <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
-                                Favoritos
-                            </Text>
-                        </Link>
-                    </HStack>
-                    <Spacer />
-                    <Avatar/>
-                </Flex>
-            </Box>
-            <CustomBreadcrumb />
-
-        </Stack>
-    );
+  return (
+    <Stack bg="#EFF1F4">
+      {/* Header */}
+      <Box bg="#1DAF87" py={3} px={8} h="86px">
+        <Flex align="center" justifyContent={"space-between"}>
+          <Flex align={"center"}>
+            <RenderLink
+              textDecoration={"none"}
+              href="/"
+              _focus={{outline: "none"}}
+            >
+              <Image
+                src={LogoPng}
+                h={50}
+                w={50}
+                cursor={"pointer"}
+                textDecoration={"none"}
+              />
+              <Text
+                color={"white"}
+                fontSize={36}
+                fontWeight={"bolder"}
+                textDecoration={"none"}
+              >
+                Escambo
+              </Text>
+            </RenderLink>
+          </Flex>
+          <Flex gap={"8.8rem"} mt="8">
+            {childrenLinks.map((link) => (
+              <RenderLink
+                key={link.href}
+                children={link.children}
+                href={link.href}
+              />
+            ))}
+          </Flex>
+          <Avatar />
+        </Flex>
+      </Box>
+      <CustomBreadcrumb />
+    </Stack>
+  );
 }
