@@ -11,7 +11,7 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="product" element={<CreateProduct />} />
+          <Route path="post" element={<CreateProduct />} />
           <Route path="history" element={<HistoricoTrocas />} />
           <Route path="favorits" element={<Favoritos />} />
         </Route>

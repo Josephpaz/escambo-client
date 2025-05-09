@@ -66,7 +66,11 @@ export function NavBar() {
       <Box bg="#1DAF87" py={3} px={8} h="86px">
         <Flex align="center" justifyContent={"space-between"}>
           <Flex align={"center"}>
-            <RenderLink textDecoration={"none"} href="/">
+            <RenderLink
+              textDecoration={"none"}
+              href="/"
+              _focus={{outline: "none"}}
+            >
               <Image
                 src={LogoPng}
                 h={50}

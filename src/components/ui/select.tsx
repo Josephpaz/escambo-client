@@ -17,6 +17,7 @@ interface SelectCustomProps extends Omit<SelectRootProps, "collection"> {
   label?: string;
   options: Option[];
   placeholder?: string;
+  isClearable?: boolean;
 }
 
 type SelectVariantProps = RecipeVariantProps<typeof selectRecipe> &
@@ -26,7 +27,7 @@ export interface SelectProps
   extends React.PropsWithChildren<SelectVariantProps> {}
 
 export function SelectCustom(props: SelectProps) {
-  const {label, options, placeholder = "Selecione uma opção"} = props;
+  const {label, options, placeholder = "Selecione uma opção", isClearable} = props;
   const recipe = useRecipe({recipe: selectRecipe});
   const [recipeProps, restProps] = recipe.splitVariantProps(props);
   const styles = recipe(recipeProps);
@@ -46,6 +47,7 @@ export function SelectCustom(props: SelectProps) {
           <Select.ValueText placeholder={placeholder} />
         </Select.Trigger>
         <Select.IndicatorGroup>
+        {isClearable && <Select.ClearTrigger />}
           <Select.Indicator />
         </Select.IndicatorGroup>
       </Select.Control>
