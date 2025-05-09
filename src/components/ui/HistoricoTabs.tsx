@@ -1,4 +1,5 @@
 import {
+    Box,
     Stack,
     TabsContent,
     TabsList,
@@ -7,6 +8,7 @@ import {
     Text
 } from "@chakra-ui/react";
 
+import { IoFilter } from "react-icons/io5";
 import { Pagination } from "./Pagination";
 
 import FogaoPng from '@/assets/fogao.png';
@@ -17,76 +19,76 @@ import { TrocaCard } from "./TrocaCard";
 const trocas = {
     enviadas: [
         {
-            produto1: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
             status: "ACEITA",
         },
         {
-            produto1: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Geladeira", categoria: "Automovel", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Automovel", usuario: "Arlindo Neto", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Geladeira", categoria: "Automovel", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Automovel", usuario: "Arlindo Neto", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Geladeira", categoria: "Automovel", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Automovel", usuario: "Arlindo Neto", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Geladeira", categoria: "Automovel", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Automovel", usuario: "Arlindo Neto", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Geladeira", categoria: "Automovel", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Automovel", usuario: "Arlindo Neto", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Geladeira", categoria: "Automovel", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", categoria: "Automovel", usuario: "Arlindo Neto", imagem: FogaoPng },
+            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
             status: "RECUSADA",
         },
-        
+
     ],
     recebidas: [
         {
-            produto1: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
             status: "RECUSADA",
         },
         {
-            produto1: { nome: "Fogão", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
+            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
+            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
             status: "RECUSADA",
         },
     ],
@@ -146,7 +148,11 @@ export function HistoricoTabs() {
                                 pb={2}
                             >
                                 Recebidas
+
                             </TabsTrigger>
+                            <Box position="absolute" top="16px" right="16px">
+                                <IoFilter color="#606266" size={18} onClick={() => alert("oi")} cursor={'pointer'}/>
+                            </Box>
                         </TabsList>
 
                         <TabsContent value="aceitas">
@@ -175,7 +181,7 @@ export function HistoricoTabs() {
                     </TabsRoot>
                 </Stack>
 
-             
+
                 <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}

@@ -11,9 +11,10 @@ import { FaArrowRight } from "react-icons/fa6";
 
 interface Produto {
   nome: string;
-  categoria: string;
+  data: string;
   usuario: string;
   imagem: string;
+  categoria: string;
 }
 
 interface TrocaCardProps {
@@ -50,12 +51,15 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
             <Text fontSize={15} color={'#373E4B'} fontWeight={'light'}>
               {produto1.categoria}
             </Text>
-            <Text fontSize={13} color={'#373E4B'} fontWeight={'extralight'}>
+            <Text fontSize={14} color={'#373E4B'} fontWeight={'extralight'}>
               {produto1.usuario}
+            </Text>
+            <Text fontSize={12} color={'#373E4B'} fontWeight={'extralight'}>
+              {produto1.data}
             </Text>
           </VStack>
         </HStack>
-        <FaArrowRight size={45} color="#A0AEC0"/>
+        <FaArrowRight size={50} color="#A0AEC0"/>
         <HStack ml={15}>
           <Image
             src={produto2.imagem}
@@ -70,8 +74,11 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
             <Text fontSize={15} color={'#373E4B'}>
               {produto2.categoria}
             </Text>
-            <Text fontSize={13} color={'#373E4B'}>
+            <Text fontSize={14} color={'#373E4B'} fontWeight={'extralight'}>
               {produto2.usuario}
+            </Text>
+            <Text fontSize={12} color={'#373E4B'} fontWeight={'extralight'} >
+              {produto2.data}
             </Text>
           </VStack>
         </HStack>

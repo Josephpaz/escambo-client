@@ -1,0 +1,22 @@
+{
+    "recebidas": [
+      {
+        "produto1": {
+          "nome": "Geladeira",
+          "data": "08-05-2025",
+          "categoria": "Eletrodomésticos",
+          "usuario": "Samuel Gomes",
+          "imagem": "Geladeira.png"
+        },
+        "produto2": {
+          "nome": "Fogão",
+          "data": "08-05-2025",
+          "categoria": "Eletrodomésticos",
+          "usuario": "Marcos Araújo",
+          "imagem": "Fogao.png"
+        },
+        "status": "RECUSADA"
+      }
+    ]
+  }
+  

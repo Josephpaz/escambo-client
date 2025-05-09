@@ -1,5 +1,6 @@
 // import App from "@/App";
 import { Layout } from "@/components/ui/Layout";
+import { Cadastro } from "@/features/Cadastro";
 import { Favoritos } from "@/features/Favoritos";
 import { HistoricoTrocas } from "@/features/HistoricoTrocas";
 import { HomeWeb } from "@/features/HomeWeb";
@@ -15,6 +16,7 @@ export function AppRouter() {
           <Route path="/product" element={<CreateProduct />} />
           <Route path="/history" element={<HistoricoTrocas />} />
           <Route path="/favorits" element={<Favoritos />} />
+          <Route path="/register" element={<Cadastro />} />
         </Routes>
       </Layout>
     </BrowserRouter>
