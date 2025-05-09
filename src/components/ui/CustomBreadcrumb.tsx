@@ -1,27 +1,62 @@
+import {
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbRoot,
+  BreadcrumbSeparator,
+  Stack
+} from "@chakra-ui/react";
+import { useLocation } from "react-router-dom";
 
-
-import { Breadcrumb, Stack } from "@chakra-ui/react"
+const routeNameMap: Record<string, string> = {
+  "": "Home",
+  "history": "Histórico",
+  "product": "Incluir Item",
+  "favorits": "Favoritos"
+};
 
 export function CustomBreadcrumb() {
+  const location = useLocation();
+  const pathnames = location.pathname.split("/").filter(Boolean);
+
+  const crumbs = pathnames.map((segment, index) => {
+    const href = `/${pathnames.slice(0, index + 1).join("/")}`;
+    const isLast = index === pathnames.length - 1;
+
+    return (
+      <>
+        <BreadcrumbItem key={href}>
+          <BreadcrumbLink
+            href={href}
+            color={isLast ? "#373E4B" : "#232D3D"}
+            _hover={{ color: "teal.700", textDecoration: "underline" }}
+            fontWeight={isLast ? "semibold" : "normal"}
+          >
+            {routeNameMap[segment] || segment}
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        {!isLast && <BreadcrumbSeparator />}
+      </>
+    );
+  });
+
   return (
-    <Stack>
-      <Breadcrumb.Root size={'sm'} p={4}>
-        <Breadcrumb.List>
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="/" 
-              color="#373E4B"
-              _hover={{ color: "teal.700", textDecoration: "underline" }}
-            >Home</Breadcrumb.Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Separator />
-          <Breadcrumb.Item>
-            <Breadcrumb.Link href="/history"
-              color="#373E4B"
-              _hover={{ color: "teal.700", textDecoration: "underline" }}
-            >Historico</Breadcrumb.Link>
-          </Breadcrumb.Item>
-        </Breadcrumb.List>
-      </Breadcrumb.Root>
+    <Stack p={5} ml={5}>
+      <BreadcrumbRoot
+        display="flex"        
+        alignItems="center"
+        fontWeight="semibold"
+        fontSize="sm"
+        gap={2}      
+        listStyle={'none'}       
+      >
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/" _hover={{ color: "teal.700", textDecoration: "underline" }}>
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        {pathnames.length > 0 && <BreadcrumbSeparator />}
+        {crumbs}
+      </BreadcrumbRoot>
     </Stack>
-  )
+  );
 }
