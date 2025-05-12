@@ -15,8 +15,8 @@ export function AppRouter() {
           <Route path="post" element={<CreatePost />} />
           <Route path="history" element={<HistoricoTrocas />} />
           <Route path="favorits" element={<Favoritos />} />
-          <Route path="register" element={<Cadastro />} />
         </Route>
+        <Route path="register" element={<Cadastro />} />
       </Routes>
     </BrowserRouter>
   );
