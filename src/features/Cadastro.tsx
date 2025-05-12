@@ -8,11 +8,12 @@ import {
     Stack
 } from '@chakra-ui/react';
 
-import { CustomModal } from '@/components/CustomModal';
+import { CustomModal } from '@/components/ui/CustomModal';
 import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { PageLoader } from '@/components/ui/PageLoader';
 import { REQUIRED_FIELD } from '@/helpers/constants.helper';
+import { PostRegister, RegisterCreate } from '@/service/post/postRegister';
 import { useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -22,7 +23,7 @@ interface RegisterForm {
     telefone: string;
     email: string;
     senha: string;
-     confirmSenha: string;
+    confirmSenha: string;
 }
 
 export function Cadastro() {
@@ -43,19 +44,28 @@ export function Cadastro() {
     const senha = watch('senha')
 
     const onSubmit = async (data: RegisterForm) => {
-        setIsLoading(true)
+        setIsLoading(true);
         try {
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            console.log(data);
+            const payload: RegisterCreate = {
+                nome: data.nome,
+                telefone: data.telefone,
+                email: data.email,
+                senha: data.senha,
+                confirmSenha: data.confirmSenha,
+            };
+
+            await PostRegister.create(payload);
             setFormSubmitted(true);
+            onOpen(); 
         } catch (error) {
-            console.error(error);
+            console.error("Erro ao cadastrar:", error);
             setFormSubmitted(false);
+            onOpen();
         } finally {
             setIsLoading(false);
-            onOpen();
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -248,8 +258,15 @@ export function Cadastro() {
             <CustomModal
                 isOpen={open}
                 onClose={onClose}
-                message="Cadastro realizado com sucesso!"
+                title={formSubmitted ? 'Cadastro Realizado' : 'Erro no Cadastro'}
+                isError={!formSubmitted} 
+                message={
+                    formSubmitted
+                        ? 'Cadastro realizado com sucesso!'
+                        : 'Ocorreu um erro ao tentar cadastrar. Tente novamente mais tarde.'
+                }
             />
+
 
         </form>
     );
