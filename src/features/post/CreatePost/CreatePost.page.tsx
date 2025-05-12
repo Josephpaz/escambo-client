@@ -1,7 +1,7 @@
-import {Field} from "@/components/ui/field";
-import {Input} from "@/components/ui/input";
-import {SelectCustom} from "@/components/ui/select";
-import {REQUIRED_FIELD} from "@/helpers/constants.helper";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { SelectCustom } from "@/components/ui/select";
+import { REQUIRED_FIELD } from "@/helpers/constants.helper";
 import { PostService } from "@/service/post/post.service";
 import {
   Button,
@@ -11,8 +11,8 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import {Image} from "lucide-react";
-import {useForm, Controller} from "react-hook-form";
+import { Image } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
 
 type CreatePostForm = {
   title: string;

@@ -20,7 +20,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
                     aria-label="Previous page"
                     onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
                     color={"#232D3D"}
-                    _hover={{ color: "#FFFFFF" }}
+                    _hover={{ color: "#1DAF87" }}
                 ><FaAngleLeft /></IconButton>
 
 
@@ -30,7 +30,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
                         aria-label={`Page ${index + 1}`}
                         onClick={() => onPageChange(index + 1)}
                         variant={currentPage === index + 1 ? "outline" : "ghost"}
-                        _hover={{ color: "#FFFFFF" }}
+                        _hover={{ color: "#1DAF87" }}
                         color={"#232D3D"}
                     >
                         {index + 1}
@@ -41,7 +41,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
                     aria-label="Next page"
                     onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
                     color={"#232D3D"}
-                    _hover={{ color: "#FFFFFF" }}
+                    _hover={{ color: "#1DAF87" }}
                 ><FaAngleRight /></IconButton>
             </ButtonGroup>
         </Stack>

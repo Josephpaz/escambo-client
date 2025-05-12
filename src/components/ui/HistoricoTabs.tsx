@@ -1,3 +1,4 @@
+import { TrocaService } from "@/service/post/getTrocas";
 import {
     Box,
     Stack,
@@ -7,16 +8,13 @@ import {
     TabsTrigger,
     Text
 } from "@chakra-ui/react";
-
+import { useEffect, useState } from "react";
 import { IoFilter } from "react-icons/io5";
 import { Pagination } from "./Pagination";
-
-import FogaoPng from '@/assets/fogao.png';
-import GeladeiraPng from '@/assets/geladeira.png';
-import { useState } from "react";
 import { TrocaCard } from "./TrocaCard";
 
-const trocas = {
+
+/*const trocas = {
     enviadas: [
         {
             produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
@@ -92,20 +90,36 @@ const trocas = {
             status: "RECUSADA",
         },
     ],
-};
+};*/
 
 const ITEMS_PER_PAGE = 3;
 
 export function HistoricoTabs() {
-    const [currentTab, setCurrentTab] = useState("aceitas");
+   const [trocas, setTrocas] = useState<{
+        envio: TrocaService.Troca[];
+        recebido: TrocaService.Troca[];
+    }>({envio: [],recebido: [],
+    });;
+
+    const [currentTab, setCurrentTab] = useState("enviadas");
     const [currentPage, setCurrentPage] = useState(1);
 
-    const trocasAtuais = currentTab === "aceitas" ? trocas.enviadas : trocas.recebidas;
+    const trocasAtuais = currentTab === "enviadas" ? trocas.envio : trocas.recebido;
     const totalItems = trocasAtuais.length;
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     const trocasPaginadas = trocasAtuais.slice(startIndex, endIndex);
+
+   useEffect(() => {
+        async function fetchTrocas() {
+            const send = await TrocaService.getEnviadas();
+            const receipt = await TrocaService.getRecebidas();
+            setTrocas({ envio: send.enviadas, recebido: receipt.recebidas });
+        }
+
+        fetchTrocas();
+    }, []);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -120,7 +134,7 @@ export function HistoricoTabs() {
 
                 <Stack px={5} pb={5}>
                     <TabsRoot
-                        defaultValue="aceitas"
+                        defaultValue="enviadas"
                         onValueChange={(tab) => {
                             setCurrentTab(tab.value);
                             setCurrentPage(1);
@@ -128,7 +142,7 @@ export function HistoricoTabs() {
                     >
                         <TabsList gap={4} >
                             <TabsTrigger
-                                value="aceitas"
+                                value="enviadas"
                                 _selected={{ color: "#24B384" }}
                                 _focus={{ boxShadow: "none" }}
                                 bg="transparent"
@@ -139,7 +153,7 @@ export function HistoricoTabs() {
                                 Enviadas
                             </TabsTrigger>
                             <TabsTrigger
-                                value="recusadas"
+                                value="recebidas"
                                 _selected={{ color: "#24B384" }}
                                 _focus={{ boxShadow: "none" }}
                                 bg="transparent"
@@ -151,12 +165,12 @@ export function HistoricoTabs() {
 
                             </TabsTrigger>
                             <Box position="absolute" top="16px" right="16px">
-                                <IoFilter color="#606266" size={18} onClick={() => alert("oi")} cursor={'pointer'}/>
+                                <IoFilter color="#606266" size={18} onClick={() => alert("oi")} cursor={'pointer'} />
                             </Box>
                         </TabsList>
 
-                        <TabsContent value="aceitas">
-                            {currentTab === "aceitas" &&
+                        <TabsContent value="enviadas">
+                            {currentTab === "enviadas" &&
                                 trocasPaginadas.map((troca, index) => (
                                     <TrocaCard
                                         key={index}
@@ -167,8 +181,8 @@ export function HistoricoTabs() {
                                 ))}
                         </TabsContent>
 
-                        <TabsContent value="recusadas" mt={2}>
-                            {currentTab === "recusadas" &&
+                        <TabsContent value="recebidas" mt={2}>
+                            {currentTab === "recebidas" &&
                                 trocasPaginadas.map((troca, index) => (
                                     <TrocaCard
                                         key={index}
