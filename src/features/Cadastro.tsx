@@ -13,10 +13,11 @@ import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { PageLoader } from '@/components/ui/PageLoader';
 import { REQUIRED_FIELD } from '@/helpers/constants.helper';
-import { PostRegister, RegisterCreate } from '@/service/post/postRegister';
+import { PostRegister, RegisterCreate, verificarEmail } from '@/service/post/postRegister';
 import { useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 interface RegisterForm {
     nome: string;
@@ -37,11 +38,18 @@ export function Cadastro() {
         }
     });
 
+    const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const { open, onOpen, onClose } = useDisclosure();
-
     const senha = watch('senha')
+
+    const inputProps = {
+        _placeholder: { color: '#A0AEC0', fontWeight: 'normal' },
+        color: "#232D3D",
+        w: 300,
+        h: 8
+    };
 
     const onSubmit = async (data: RegisterForm) => {
         setIsLoading(true);
@@ -56,7 +64,11 @@ export function Cadastro() {
 
             await PostRegister.create(payload);
             setFormSubmitted(true);
-            onOpen(); 
+            onOpen();
+            setTimeout(() => {
+                navigate('/');
+            }, 1500);
+
         } catch (error) {
             console.error("Erro ao cadastrar:", error);
             setFormSubmitted(false);
@@ -103,12 +115,9 @@ export function Cadastro() {
                                         }}
                                         render={({ field }) => (
                                             <Input
+                                                {...inputProps}
                                                 visual="without-border"
                                                 placeholder="Seu Nome"
-                                                _placeholder={{ color: '#A0AEC0', fontWeight: 'normal' }}
-                                                color={"#232D3D"}
-                                                w={300}
-                                                h={8}
                                                 type='text'
                                                 {...field}
                                             />
@@ -127,15 +136,19 @@ export function Cadastro() {
                                     <Controller
                                         name="telefone"
                                         control={control}
-                                        rules={{ required: REQUIRED_FIELD }}
+
+                                        rules={{
+                                            required: REQUIRED_FIELD,
+                                            pattern: {
+                                                value: /^\(?\d{2}\)?\d{4, 5}-?\d{4}$/,
+                                                message: "Digite um telefone válido (ex: 11999999999)"
+                                            }
+                                        }}
                                         render={({ field }) => (
                                             <Input
+                                                {...inputProps}
                                                 visual="without-border"
                                                 placeholder="DDD00000000"
-                                                _placeholder={{ color: '#A0AEC0', fontWeight: 'normal' }}
-                                                color={"#232D3D"}
-                                                w={300}
-                                                h={8}
                                                 type="tel"
                                                 {...field}
                                             />
@@ -159,16 +172,17 @@ export function Cadastro() {
                                             pattern: {
                                                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                                                 message: "Digite um email válido"
+                                            },
+                                            validate: async (value) => {
+                                                const existe = await verificarEmail(value);
+                                                return !existe || "E-mail já cadastrado";
                                             }
                                         }}
                                         render={({ field }) => (
                                             <Input
+                                                {...inputProps}
                                                 visual="without-border"
                                                 placeholder="Email@Email.com"
-                                                _placeholder={{ color: '#A0AEC0', fontWeight: 'normal' }}
-                                                color={"#232D3D"}
-                                                w={300}
-                                                h={8}
                                                 type="email"
                                                 {...field}
                                             />
@@ -197,12 +211,9 @@ export function Cadastro() {
                                         }}
                                         render={({ field }) => (
                                             <Input
+                                                {...inputProps}
                                                 visual="without-border"
                                                 placeholder="******"
-                                                _placeholder={{ color: '#A0AEC0', fontWeight: 'normal' }}
-                                                color={"#232D3D"}
-                                                w={300}
-                                                h={8}
                                                 type="password"
                                                 {...field}
                                             />
@@ -225,12 +236,9 @@ export function Cadastro() {
                                         }}
                                         render={({ field }) => (
                                             <Input
+                                                {...inputProps}
                                                 visual="without-border"
                                                 placeholder="******"
-                                                _placeholder={{ color: '#A0AEC0', fontWeight: 'normal' }}
-                                                color={"#232D3D"}
-                                                w={300}
-                                                h={8}
                                                 type="password"
                                                 {...field}
                                             />
@@ -257,9 +265,12 @@ export function Cadastro() {
             </Flex>
             <CustomModal
                 isOpen={open}
-                onClose={onClose}
+                onClose={() => {
+                    onClose();
+                    if (formSubmitted) navigate('/')
+                }}
                 title={formSubmitted ? 'Cadastro Realizado' : 'Erro no Cadastro'}
-                isError={!formSubmitted} 
+                isError={!formSubmitted}
                 message={
                     formSubmitted
                         ? 'Cadastro realizado com sucesso!'
