@@ -65,10 +65,6 @@ export function Cadastro() {
             await PostRegister.create(payload);
             setFormSubmitted(true);
             onOpen();
-            setTimeout(() => {
-                navigate('/');
-            }, 1500);
-
         } catch (error) {
             console.error("Erro ao cadastrar:", error);
             setFormSubmitted(false);
@@ -101,6 +97,7 @@ export function Cadastro() {
                                     fontWeight="bolder"
                                     invalid={!!errors.nome}
                                     errorText={errors.nome?.message}
+                                    errorColor="#F94649"
 
                                 >
                                     <Controller
@@ -118,6 +115,7 @@ export function Cadastro() {
                                                 {...inputProps}
                                                 visual="without-border"
                                                 placeholder="Seu Nome"
+                                                borderColor={errors.nome ? "#F94649" : "transparent"}
                                                 type='text'
                                                 {...field}
                                             />
@@ -132,6 +130,7 @@ export function Cadastro() {
                                     fontWeight="bolder"
                                     invalid={!!errors.telefone}
                                     errorText={errors.telefone?.message}
+                                    errorColor="#F94649"
                                 >
                                     <Controller
                                         name="telefone"
@@ -149,6 +148,7 @@ export function Cadastro() {
                                                 {...inputProps}
                                                 visual="without-border"
                                                 placeholder="DDD00000000"
+                                                borderColor={errors.telefone ? "#F94649" : "transparent"}
                                                 type="tel"
                                                 {...field}
                                             />
@@ -163,6 +163,7 @@ export function Cadastro() {
                                     fontWeight="bolder"
                                     invalid={!!errors.email}
                                     errorText={errors.email?.message}
+                                    errorColor="#F94649"
                                 >
                                     <Controller
                                         name="email"
@@ -184,6 +185,7 @@ export function Cadastro() {
                                                 visual="without-border"
                                                 placeholder="Email@Email.com"
                                                 type="email"
+                                                borderColor={errors.email ? "#F94649" : "transparent"}
                                                 {...field}
                                             />
                                         )}
@@ -198,6 +200,7 @@ export function Cadastro() {
                                     fontWeight="bolder"
                                     invalid={!!errors.senha}
                                     errorText={errors.senha?.message}
+                                    errorColor="#F94649"
                                 >
                                     <Controller
                                         name="senha"
@@ -215,6 +218,7 @@ export function Cadastro() {
                                                 visual="without-border"
                                                 placeholder="******"
                                                 type="password"
+                                                borderColor={errors.senha ? "#F94649" : "transparent"}
                                                 {...field}
                                             />
                                         )}
@@ -226,6 +230,7 @@ export function Cadastro() {
                                     fontWeight="bolder"
                                     invalid={!!errors.confirmSenha}
                                     errorText={errors.confirmSenha?.message}
+                                    errorColor="#F94649"
                                 >
                                     <Controller
                                         name="confirmSenha"
@@ -240,6 +245,7 @@ export function Cadastro() {
                                                 visual="without-border"
                                                 placeholder="******"
                                                 type="password"
+                                                borderColor={errors.confirmSenha ? "#F94649" : "transparent"}
                                                 {...field}
                                             />
                                         )}
