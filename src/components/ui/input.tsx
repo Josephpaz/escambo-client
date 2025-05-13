@@ -1,11 +1,11 @@
-"use client"
+
+import { inputRecipe } from "@/theme/components/input.recipe";
 import {
   Input as ChakraInput,
   InputProps as ChakraInputProps,
   RecipeVariantProps,
   useRecipe,
 } from "@chakra-ui/react";
-import { inputRecipe } from "@/theme/components/input.recipe";
 
 type InputVariantProps = RecipeVariantProps<typeof inputRecipe> & ChakraInputProps;
 
