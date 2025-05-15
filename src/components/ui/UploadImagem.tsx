@@ -11,6 +11,15 @@ import {
 import React, { useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
 
+function generateId(length = 6) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
+    let result = ''
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    return result
+}
+
 export function UploadImagem() {
     const [files, setFiles] = useState<File[]>([])
 
@@ -31,8 +40,15 @@ export function UploadImagem() {
         if (invalidFiles.length > 0) {
             alert(`Só são permitidos arquivos PNG e JPEG. ${invalidFiles.length} arquivo(s) inválido(s) foram ignorados.`)
         }
+        const renamedFiles = validFiles.map((file) => {
+            const extension = file.name.split('.').pop()
+            const newName = `img-${generateId()}.${extension}`
 
-        setFiles(prev => [...prev, ...validFiles])
+
+            return new File([file], newName, { type: file.type })
+        })
+
+        setFiles(prev => [...prev, ...renamedFiles])
         event.target.value = ''
     }
 
