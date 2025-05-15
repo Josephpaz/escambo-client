@@ -42,17 +42,18 @@ export function UploadImagem() {
         if (!selectedFiles) return
 
         const allowedTypes = ['image/png', 'image/jpeg']
+        const maxSizeInBytes = 5 * 1024 * 1024 // 5MB
 
         const validFiles = Array.from(selectedFiles).filter(file =>
-            allowedTypes.includes(file.type)
+            allowedTypes.includes(file.type) && file.size <= maxSizeInBytes
         )
 
         const invalidFiles = Array.from(selectedFiles).filter(file =>
-            !allowedTypes.includes(file.type)
+            !allowedTypes.includes(file.type) || file.size > maxSizeInBytes
         )
 
         if (invalidFiles.length > 0) {
-            alert(`Só são permitidos arquivos PNG e JPEG. ${invalidFiles.length} arquivo(s) inválido(s) foram ignorados.`)
+            alert(`Só são permitidos arquivos PNG e JPEG com tamanho máximo de 5MB são permitidos. ${invalidFiles.length} arquivo(s) inválido(s) foram ignorados.`)
         }
 
         const renamedFiles = validFiles.map((file) => {
