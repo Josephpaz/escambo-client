@@ -18,13 +18,24 @@ export function UploadImagem() {
         const selectedFiles = event.target.files
         if (!selectedFiles) return
 
-        const imageFiles = Array.from(selectedFiles).filter(file =>
-            file.type.startsWith('image/')
+        const allowedTypes = ['image/png', 'image/jpeg']
+
+        const validFiles = Array.from(selectedFiles).filter(file =>
+            allowedTypes.includes(file.type)
         )
 
-        setFiles(prev => [...prev, ...imageFiles])
-        event.target.value = '' // reset para permitir re-upload do mesmo arquivo
+        const invalidFiles = Array.from(selectedFiles).filter(file =>
+            !allowedTypes.includes(file.type)
+        )
+
+        if (invalidFiles.length > 0) {
+            alert(`Só são permitidos arquivos PNG e JPEG. ${invalidFiles.length} arquivo(s) inválido(s) foram ignorados.`)
+        }
+
+        setFiles(prev => [...prev, ...validFiles])
+        event.target.value = ''
     }
+
 
     function removeFile(index: number) {
         setFiles(prev => prev.filter((_, i) => i !== index))
