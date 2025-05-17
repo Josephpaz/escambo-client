@@ -29,13 +29,37 @@ function fileToBase64(file: File): Promise<string> {
     })
 }
 
-export function UploadImagem() {
+type UploadImagemProps = {
+    onChangeBase64?: (base64s: string[]) => void;
+};
+
+
+export function UploadImagem({ onChangeBase64 }: UploadImagemProps) {
+
     const [files, setFiles] = useState<File[]>([])
     const [filesBase64, setFilesBase64] = useState<string[]>([])
 
+    // Dentro do UploadImagem
     useEffect(() => {
-        console.log('filesBase64 atualizado:', filesBase64)
-    }, [filesBase64])
+        async function convertFilesToBase64() {
+            const base64s = await Promise.all(
+                files.map((file) => {
+                    return new Promise<string>((resolve, reject) => {
+                        const reader = new FileReader()
+                        reader.onload = () => resolve(reader.result as string)
+                        reader.onerror = reject
+                        reader.readAsDataURL(file)
+                    })
+                })
+            )
+            onChangeBase64?.(base64s)
+        }
+
+        if (files.length > 0) {
+            convertFilesToBase64()
+        }
+    }, [files])
+
 
     async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const selectedFiles = event.target.files
