@@ -59,10 +59,10 @@ export function Cadastro() {
                 telefone: data.telefone,
                 email: data.email,
                 senha: data.senha,
-                confirmSenha: data.confirmSenha,
             };
 
             await PostRegister.create(payload);
+
             setFormSubmitted(true);
             onOpen();
         } catch (error) {
@@ -73,7 +73,6 @@ export function Cadastro() {
             setIsLoading(false);
         }
     };
-
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -139,15 +138,15 @@ export function Cadastro() {
                                         rules={{
                                             required: REQUIRED_FIELD,
                                             pattern: {
-                                                value: /^\(?\d{2}\)?\d{4, 5}-?\d{4}$/,
-                                                message: "Digite um telefone válido (ex: 11999999999)"
+                                                value: /^\(?\d{2}\)?\d{4,5}-\d{4}$/,
+                                                message: "Digite um telefone válido (ex: (DD)00000-0000)"
                                             }
                                         }}
                                         render={({ field }) => (
                                             <Input
                                                 {...inputProps}
                                                 visual="without-border"
-                                                placeholder="DDD00000000"
+                                                placeholder="(DDD)00000-0000"
                                                 borderColor={errors.telefone ? "#F94649" : "transparent"}
                                                 type="tel"
                                                 {...field}

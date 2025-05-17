@@ -11,10 +11,10 @@ import { FaArrowRight } from "react-icons/fa6";
 
 interface Produto {
   nome: string;
-  data: string;
+  descricao: string;
+  categoria: string;
   usuario: string;
   imagem: string;
-  categoria: string;
 }
 
 interface TrocaCardProps {
@@ -47,19 +47,19 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
             objectFit="cover"
           />
           <VStack align="start" spaceX={0} ml={2}>
-            <Text color={'#373E4B'} fontWeight={'bold'} fontSize={20}>{produto1.nome}</Text>
+            <Text color={'#373E4B'} fontWeight={'bold'} fontSize={18}>{produto1.nome}</Text>
             <Text fontSize={15} color={'#373E4B'} fontWeight={'light'}>
               {produto1.categoria}
             </Text>
-            <Text fontSize={14} color={'#373E4B'} fontWeight={'extralight'}>
-              {produto1.usuario}
-            </Text>
             <Text fontSize={12} color={'#373E4B'} fontWeight={'extralight'}>
-              {produto1.data}
+              {produto1.descricao}
+            </Text>
+            <Text fontSize={10} color={'#373E4B'} fontWeight={'extralight'}>
+              {produto1.usuario}
             </Text>
           </VStack>
         </HStack>
-        <FaArrowRight size={50} color="#A0AEC0"/>
+        <FaArrowRight size={50} color="#A0AEC0" />
         <HStack ml={15}>
           <Image
             src={produto2.imagem}
@@ -70,20 +70,20 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
             objectFit="cover"
           />
           <VStack align="start" spaceX={0} ml={2}>
-            <Text color={'#373E4B'} fontWeight={'bold'} fontSize={20}>{produto2.nome}</Text>
+            <Text color={'#373E4B'} fontWeight={'bold'} fontSize={18}>{produto2.nome}</Text>
             <Text fontSize={15} color={'#373E4B'}>
               {produto2.categoria}
             </Text>
-            <Text fontSize={14} color={'#373E4B'} fontWeight={'extralight'}>
-              {produto2.usuario}
+            <Text fontSize={12} color={'#373E4B'} fontWeight={'extralight'}>
+              {produto2.descricao}
             </Text>
-            <Text fontSize={12} color={'#373E4B'} fontWeight={'extralight'} >
-              {produto2.data}
+            <Text fontSize={10} color={'#373E4B'} fontWeight={'extralight'} >
+              {produto2.usuario}
             </Text>
           </VStack>
         </HStack>
 
-    
+
         <Badge
           mr={12}
           fontWeight={'extrabold'}
@@ -97,8 +97,8 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
             status === "ACEITA"
               ? "#38A169"
               : status === "RECUSADA"
-              ? "#F94649"
-              : "#BF8528"
+                ? "#F94649"
+                : "#BF8528"
           }
         >
           {status}

@@ -1,207 +1,201 @@
 import { TrocaService } from "@/service/post/getTrocas";
 import {
-    Box,
-    Stack,
-    TabsContent,
-    TabsList,
-    TabsRoot,
-    TabsTrigger,
-    Text
+  Box,
+  Spinner,
+  Stack,
+  TabsContent,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IoFilter } from "react-icons/io5";
+import { Filter } from "./Filter";
 import { Pagination } from "./Pagination";
 import { TrocaCard } from "./TrocaCard";
 
-
-/*const trocas = {
-    enviadas: [
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            status: "ACEITA",
-        },
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            produto2: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Arlindo Neto", imagem: FogaoPng },
-            status: "RECUSADA",
-        },
-
-    ],
-    recebidas: [
-        {
-            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            status: "RECUSADA",
-        },
-        {
-            produto1: { nome: "Fogão", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Marcos Araújo", imagem: FogaoPng },
-            produto2: { nome: "Geladeira", data: "08-05-2025", categoria: "Eletrodomésticos", usuario: "Samuel Gomes", imagem: GeladeiraPng },
-            status: "RECUSADA",
-        },
-    ],
-};*/
-
+const trocaId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
 const ITEMS_PER_PAGE = 3;
 
 export function HistoricoTabs() {
-   const [trocas, setTrocas] = useState<{
-        envio: TrocaService.Troca[];
-        recebido: TrocaService.Troca[];
-    }>({envio: [],recebido: [],
-    });;
+  const [trocasEnviadas, setTrocasEnviadas] = useState<TrocaService.Troca[]>([]);
+  const [trocasRecebidas, setTrocasRecebidas] = useState<TrocaService.Troca[]>([]);
 
-    const [currentTab, setCurrentTab] = useState("enviadas");
-    const [currentPage, setCurrentPage] = useState(1);
+  const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
 
-    const trocasAtuais = currentTab === "enviadas" ? trocas.envio : trocas.recebido;
-    const totalItems = trocasAtuais.length;
-    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    const trocasPaginadas = trocasAtuais.slice(startIndex, endIndex);
+  const [currentTab, setCurrentTab] = useState<"enviadas" | "recebidas">("enviadas");
+  const [currentPage, setCurrentPage] = useState(1);
 
-   useEffect(() => {
-        async function fetchTrocas() {
-            const send = await TrocaService.getEnviadas();
-            const receipt = await TrocaService.getRecebidas();
-            setTrocas({ envio: send.enviadas, recebido: receipt.recebidas });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Escolhe o array correto baseado na aba atual
+  const trocasAtuais = currentTab === "enviadas" ? trocasEnviadas : trocasRecebidas;
+  const trocasArray = Array.isArray(trocasAtuais) ? trocasAtuais : [];
+
+  // Aplica filtro por status (se nenhum selecionado, mostra todos)
+  const trocasFiltradas = trocasArray.filter(
+    (troca) =>
+      selectedStatus.length === 0 || selectedStatus.includes(troca.status.toUpperCase())
+  );
+
+  // Paginação aplicada sobre o array filtrado
+  const totalItems = trocasFiltradas.length;
+  const totalPages = Math.max(Math.ceil(totalItems / ITEMS_PER_PAGE), 1);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const trocasPaginadas = trocasFiltradas.slice(startIndex, endIndex);
+
+  const [showFilter, setShowFilter] = useState(false);
+
+  useEffect(() => {
+    async function fetchTrocas() {
+      setLoading(true);
+      setError(null);
+      try {
+        const historico = await TrocaService.getHistoricoTroca(trocaId, currentTab);
+        if (currentTab === "enviadas") {
+          setTrocasEnviadas(historico);
+        } else {
+          setTrocasRecebidas(historico);
         }
+      } catch (err) {
+        setError((err as Error).message);
+        if (currentTab === "enviadas") {
+          setTrocasEnviadas([]);
+        } else {
+          setTrocasRecebidas([]);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
 
-        fetchTrocas();
-    }, []);
+    fetchTrocas();
+  }, [currentTab]);
 
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedStatus, currentTab]);
 
-    return (
-        <Stack>
-            <Stack px={5} pb={5} textAlign="center">
-                <Text color="#1DAF87" fontSize={32} mb={5} fontWeight="bolder">
-                    Histórico de Trocas
+  // Fecha filtro ao trocar aba
+  useEffect(() => {
+    setShowFilter(false);
+  }, [currentTab]);
+
+
+  // Reseta página quando filtro ou aba mudam para evitar página inválida
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedStatus, currentTab]);
+
+  const handlePageChange = (page: number) => setCurrentPage(page);
+
+  return (
+    <Stack>
+      <Stack px={5} pb={5} textAlign="center" position="relative">
+        <Text color="#1DAF87" fontSize={32} mb={5} fontWeight="bolder">
+          Histórico de Trocas
+        </Text>
+
+        <TabsRoot
+          defaultValue="enviadas"
+          onValueChange={(details) => {
+            setCurrentTab(details.value as "enviadas" | "recebidas");
+            setCurrentPage(1);
+          }}
+        >
+          <TabsList gap={4} position="relative">
+            <TabsTrigger
+              value="enviadas"
+              _selected={{ color: "#24B384" }}
+              _focus={{ boxShadow: "none" }}
+              bg="transparent"
+              color="#4A4F59"
+              px={2}
+              pb={2}
+            >
+              Enviadas
+            </TabsTrigger>
+            <TabsTrigger
+              value="recebidas"
+              _selected={{ color: "#24B384" }}
+              _focus={{ boxShadow: "none" }}
+              bg="transparent"
+              color="#4A4F59"
+              px={2}
+              pb={2}
+            >
+              Recebidas
+            </TabsTrigger>
+            <Box position="absolute" top="16px" right="16px">
+              <IoFilter
+                color="#606266"
+                size={18}
+                aria-label="Abrir filtros"
+                onClick={() => setShowFilter(!showFilter)}
+                cursor="pointer"
+              />
+            </Box>
+          </TabsList>
+
+          <TabsContent value={currentTab}>
+            {loading && (
+              <Stack align="center" py={10}>
+                <Spinner size="lg" color="#1DAF87" />
+                <Text mt={2} color={"#4A4F59"}>
+                  Carregando histórico...
                 </Text>
+              </Stack>
+            )}
 
-                <Stack px={5} pb={5}>
-                    <TabsRoot
-                        defaultValue="enviadas"
-                        onValueChange={(tab) => {
-                            setCurrentTab(tab.value);
-                            setCurrentPage(1);
-                        }}
-                    >
-                        <TabsList gap={4} >
-                            <TabsTrigger
-                                value="enviadas"
-                                _selected={{ color: "#24B384" }}
-                                _focus={{ boxShadow: "none" }}
-                                bg="transparent"
-                                color="#4A4F59"
-                                px={2}
-                                pb={2}
-                            >
-                                Enviadas
-                            </TabsTrigger>
-                            <TabsTrigger
-                                value="recebidas"
-                                _selected={{ color: "#24B384" }}
-                                _focus={{ boxShadow: "none" }}
-                                bg="transparent"
-                                color="#4A4F59"
-                                px={2}
-                                pb={2}
-                            >
-                                Recebidas
+            {error && (
+              <Text color="#F94649" fontWeight="bold" py={5}>
+                {error}
+              </Text>
+            )}
 
-                            </TabsTrigger>
-                            <Box position="absolute" top="16px" right="16px">
-                                <IoFilter color="#606266" size={18} onClick={() => alert("oi")} cursor={'pointer'} />
-                            </Box>
-                        </TabsList>
+            {!loading && !error && trocasPaginadas.length === 0 && (
+              <Text py={5} color="#4A4F59">
+                Nenhuma troca encontrada.
+              </Text>
+            )}
 
-                        <TabsContent value="enviadas">
-                            {currentTab === "enviadas" &&
-                                trocasPaginadas.map((troca, index) => (
-                                    <TrocaCard
-                                        key={index}
-                                        produto1={troca.produto1}
-                                        produto2={troca.produto2}
-                                        status={troca.status}
-                                    />
-                                ))}
-                        </TabsContent>
-
-                        <TabsContent value="recebidas" mt={2}>
-                            {currentTab === "recebidas" &&
-                                trocasPaginadas.map((troca, index) => (
-                                    <TrocaCard
-                                        key={index}
-                                        produto1={troca.produto1}
-                                        produto2={troca.produto2}
-                                        status={troca.status}
-                                    />
-                                ))}
-                        </TabsContent>
-                    </TabsRoot>
-                </Stack>
-
-
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
+            {!loading &&
+              !error &&
+              trocasPaginadas.map((troca, index) => (
+                <TrocaCard
+                  key={`${troca.produto_postagem.nome}-${troca.produto_proposta_troca.nome}-${index}`}
+                  produto1={troca.produto_postagem}
+                  produto2={troca.produto_proposta_troca}
+                  status={troca.status}
                 />
-            </Stack>
-        </Stack>
-    );
+              ))}
+          </TabsContent>
+        </TabsRoot>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+
+        {showFilter && (
+          <Box
+            position="absolute"
+            top="100px"
+            right="25px"
+            bg="white"
+            p={4}
+            borderRadius="md"
+            boxShadow="md"
+          >
+            <Filter value={selectedStatus} onChange={setSelectedStatus} />
+          </Box>
+
+        )}
+      </Stack>
+    </Stack>
+  );
 }
