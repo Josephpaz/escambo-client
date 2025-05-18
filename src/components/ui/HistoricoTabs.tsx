@@ -1,4 +1,4 @@
-import { TrocaService } from "@/service/post/getTrocas";
+import { TrocaService } from "@/service/post/getTrocas.service";
 import {
   Box,
   Spinner,
@@ -15,7 +15,8 @@ import { Filter } from "./Filter";
 import { Pagination } from "./Pagination";
 import { TrocaCard } from "./TrocaCard";
 
-const trocaId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
+const trocaId = localStorage.getItem("userId") || "";
+console.log(trocaId)
 const ITEMS_PER_PAGE = 3;
 
 export function HistoricoTabs() {

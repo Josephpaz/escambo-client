@@ -5,7 +5,7 @@ import { PageLoader } from "@/components/ui/PageLoader";
 import { SelectCustom } from "@/components/ui/select";
 import { UploadImagem } from "@/components/ui/UploadImagem";
 import { REQUIRED_FIELD } from "@/helpers/constants.helper";
-import { PostService } from "@/service/post/post.service";
+import { PostService } from "@/service/post/postPostagem.service";
 import {
   Button,
   Stack,
@@ -51,12 +51,17 @@ export function CreatePost() {
 
   const onSubmit = async (data: CreatePostForm) => {
     setIsLoading(true);
+
+    const userId = localStorage.getItem("userId") || "";
+
+    console.log(userId)
+
     const payload: PostService.CreateProps = {
       categoria: data.categoryId[0],
       descricao: data.description,
       imagem_url: data.images[0],
       titulo: data.title,
-      user_id: "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3",
+      user_id: userId,
     };
 
     try {
@@ -68,6 +73,7 @@ export function CreatePost() {
       setIsLoading(false);
       setOpen(true);
     }
+
   };
 
   const onClose = () => setOpen(false);
