@@ -52,7 +52,8 @@ export function CreatePost() {
   const onSubmit = async (data: CreatePostForm) => {
     setIsLoading(true);
 
-    const userId = localStorage.getItem("userId") || "";
+    //const userId = localStorage.getItem("userId") || "";
+    const userId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
 
     console.log(userId)
 

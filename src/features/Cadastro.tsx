@@ -61,9 +61,9 @@ export function Cadastro() {
                 senha: data.senha,
             };
 
-            const response = await PostRegister.create(payload);
+            await PostRegister.create(payload);
 
-            localStorage.setItem('userId', response.id);
+            //localStorage.setItem('userId', response.id);
 
             setFormSubmitted(true);
             onOpen();
