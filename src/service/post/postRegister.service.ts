@@ -9,6 +9,7 @@ export interface RegisterCreate {
 
 interface RegisterResponse {
     message: string;
+    id: string;
 }
 
 

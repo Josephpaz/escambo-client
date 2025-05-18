@@ -13,7 +13,7 @@ import { Field } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { PageLoader } from '@/components/ui/PageLoader';
 import { REQUIRED_FIELD } from '@/helpers/constants.helper';
-import { PostRegister, RegisterCreate, verificarEmail } from '@/service/post/postRegister';
+import { PostRegister, RegisterCreate, verificarEmail } from '@/service/post/postRegister.service';
 import { useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -63,6 +63,8 @@ export function Cadastro() {
 
             await PostRegister.create(payload);
 
+            //localStorage.setItem('userId', response.id);
+
             setFormSubmitted(true);
             onOpen();
         } catch (error) {
@@ -73,6 +75,7 @@ export function Cadastro() {
             setIsLoading(false);
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

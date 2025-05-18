@@ -13,6 +13,6 @@ const baseUrl = '/postagens'
 export class PostService {
   static create(payload: PostService.CreateProps) {
     type Response = 'Postagem inserida/atualizada com sucesso'
-    return API.put<Response>(baseUrl, payload) 
+    return API.post<Response>(baseUrl, payload) 
   }
 }

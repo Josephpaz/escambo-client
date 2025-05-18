@@ -1,21 +1,26 @@
+import { CustomModal } from "@/components/ui/CustomModal";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PageLoader } from "@/components/ui/PageLoader";
 import { SelectCustom } from "@/components/ui/select";
 import { UploadImagem } from "@/components/ui/UploadImagem";
 import { REQUIRED_FIELD } from "@/helpers/constants.helper";
-import { PostService } from "@/service/post/post.service";
+import { PostService } from "@/service/post/postPostagem.service";
 import {
   Button,
   Stack,
   Text,
   Textarea
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 type CreatePostForm = {
   title: string;
   categoryId: string[];
   description: string;
+  images: string[];
 };
 
 const categorias = [
@@ -26,6 +31,11 @@ const categorias = [
 ];
 
 export function CreatePost() {
+  const [open, setOpen] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     handleSubmit,
     control,
@@ -35,24 +45,44 @@ export function CreatePost() {
       title: "",
       categoryId: [],
       description: "",
+      images: [],
     },
   });
 
   const onSubmit = async (data: CreatePostForm) => {
+    setIsLoading(true);
+
+    //const userId = localStorage.getItem("userId") || "";
+    const userId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
+
+    console.log(userId)
 
     const payload: PostService.CreateProps = {
       categoria: data.categoryId[0],
       descricao: data.description,
-      imagem_url: "https://exemplo.com/imagem.jpg",
+      imagem_url: data.images[0],
       titulo: data.title,
-      user_id: "cb1b93b1-ef61-470e-a076-4dc2fbd70314",
+      user_id: userId,
+    };
+
+    try {
+      await PostService.create(payload);
+      setFormSubmitted(true);
+    } catch (err) {
+      setFormSubmitted(false);
+    } finally {
+      setIsLoading(false);
+      setOpen(true);
     }
 
-    await PostService.create(payload);
   };
+
+  const onClose = () => setOpen(false);
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {isLoading && <PageLoader />}
       <Stack justifyItems={"center"} alignItems={"center"}>
         <Text textStyle={"4xl"} color="#1DAF87" mt="9" fontWeight={"700"}>
           Incluir Item para troca
@@ -126,9 +156,26 @@ export function CreatePost() {
             />
           </Field>
 
-          <Field label="Fotos" color="#373E4B">
-            <UploadImagem />
-          </Field>
+          <Controller
+            name="images"
+            control={control}
+            rules={{
+              validate: (val) =>
+                val && val.length > 0 || "É necessário enviar pelo menos uma imagem",
+            }}
+            render={({ field }) => (
+              <Field
+                label="Fotos"
+                color="#373E4B"
+                errorText={errors.images?.message}
+              >
+                <UploadImagem
+                  onChangeBase64={(base64List) => field.onChange(base64List)}
+                />
+              </Field>
+            )}
+          />
+
           <Button
             colorPalette={"blue"}
             size="xs"
@@ -139,8 +186,23 @@ export function CreatePost() {
           >
             Incluir Item
           </Button>
+
         </Stack>
       </Stack>
+      <CustomModal
+        isOpen={open}
+        onClose={() => {
+          onClose();
+          if (formSubmitted) navigate('/')
+        }}
+        title={formSubmitted ? 'Cadastro Realizado' : 'Erro no Cadastro'}
+        isError={!formSubmitted}
+        message={
+          formSubmitted
+            ? 'Cadastro realizado com sucesso!'
+            : 'Ocorreu um erro ao tentar cadastrar. Tente novamente.'
+        }
+      />
     </form>
   );
 }
