@@ -211,7 +211,7 @@ export function Cadastro() {
                                             required: REQUIRED_FIELD,
                                             pattern: {
                                                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                                                message: "A senha deve ter pelo menos 6 caracteres"
+                                                message: "A senha deve conter letras maiusculas, minúsculas, números e caracteres"
                                             }
                                         }}
                                         render={({ field }) => (
