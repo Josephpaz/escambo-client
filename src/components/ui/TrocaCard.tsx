@@ -101,7 +101,7 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
                 : "#BF8528"
           }
         >
-          {status}
+          {status.toUpperCase()}
         </Badge>
       </HStack>
     </Box>
