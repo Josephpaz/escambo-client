@@ -39,6 +39,8 @@ export function CreatePost() {
   const {
     handleSubmit,
     control,
+    trigger,
+    setValue,
     formState: { errors },
   } = useForm<CreatePostForm>({
     defaultValues: {
@@ -97,7 +99,12 @@ export function CreatePost() {
             <Controller
               name="title"
               control={control}
-              rules={{ required: REQUIRED_FIELD }}
+              rules={{
+                required: REQUIRED_FIELD,
+                minLength: { value: 5, message: "O título deve ter pelo menos 3 caracteres" },
+                maxLength: { value: 20, message: "O título deve ter no máximo 20 caracteres" }
+              }}
+
               render={({ field }) => (
                 <Input
                   visual="without-border"
@@ -143,7 +150,10 @@ export function CreatePost() {
             <Controller
               name="description"
               control={control}
-              rules={{ required: REQUIRED_FIELD }}
+              rules={{
+                required: REQUIRED_FIELD,
+                minLength: { value: 10, message: "A descrição deve ter pelo menos 10 caracteres" }
+              }}
               render={({ field }) => (
                 <Textarea
                   fontSize="xs"
@@ -168,13 +178,19 @@ export function CreatePost() {
                 label="Fotos"
                 color="#373E4B"
                 errorText={errors.images?.message}
+                invalid={!!errors.images}
               >
                 <UploadImagem
-                  onChangeBase64={(base64List) => field.onChange(base64List)}
+                  onChangeBase64={(base64List) => {
+                    field.onChange(base64List);
+                    setValue("images", base64List);
+                    trigger("images");
+                  }}
                 />
               </Field>
             )}
           />
+
 
           <Button
             colorPalette={"blue"}
