@@ -21,9 +21,11 @@ interface TrocaCardProps {
   produto1: Produto;
   produto2: Produto;
   status: string;
+  onClick?: () => void;
 }
 
-export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
+export function TrocaCard({ produto1, produto2, status, onClick}: TrocaCardProps) {
+  const isPendente = status.toUpperCase() === "PENDENTE";
   return (
     <Box
       p={4}
@@ -35,6 +37,11 @@ export function TrocaCard({ produto1, produto2, status }: TrocaCardProps) {
       h={'130px'}
       mt={5}
       mx="auto"
+      cursor={isPendente ? "pointer" : "default"}
+      onClick={isPendente ? onClick : undefined}
+      _hover={isPendente ? { bg: "#C0C0C0" } : undefined}
+      transition="background-color 0.2s"
+
     >
       <HStack p={2} justifyContent={'space-between'} display={'flex'} alignItems={'center'}>
         <HStack>

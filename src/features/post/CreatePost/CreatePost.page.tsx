@@ -101,7 +101,7 @@ export function CreatePost() {
               control={control}
               rules={{
                 required: REQUIRED_FIELD,
-                minLength: { value: 5, message: "O título deve ter pelo menos 3 caracteres" },
+                minLength: { value: 5, message: "O título deve ter pelo menos 5 caracteres" },
                 maxLength: { value: 20, message: "O título deve ter no máximo 20 caracteres" }
               }}
 

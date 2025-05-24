@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { IoFilter } from "react-icons/io5";
 import { Filter } from "./Filter";
+import { ModalResposta } from "./ModalResposta";
 import { Pagination } from "./Pagination";
 import { TrocaCard } from "./TrocaCard";
 
@@ -25,6 +26,8 @@ export function HistoricoTabs() {
   const [trocasRecebidas, setTrocasRecebidas] = useState<TrocaService.Troca[]>([]);
 
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
+  const [trocaSelecionada, setTrocaSelecionada] = useState<TrocaService.Troca | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [currentTab, setCurrentTab] = useState<"enviadas" | "recebidas">("enviadas");
   const [currentPage, setCurrentPage] = useState(1);
@@ -172,7 +175,12 @@ export function HistoricoTabs() {
                   produto1={troca.produto_postagem}
                   produto2={troca.produto_proposta_troca}
                   status={troca.status}
+                  onClick={() => {
+                    setTrocaSelecionada(troca);
+                    setIsModalOpen(true);
+                  }}
                 />
+
               ))}
           </TabsContent>
         </TabsRoot>
@@ -197,6 +205,22 @@ export function HistoricoTabs() {
           </Box>
 
         )}
+
+        {trocaSelecionada && (
+          <ModalResposta
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onAceitar={() => {
+              console.log("Aceitar troca:", trocaSelecionada);
+              setIsModalOpen(false);
+            }}
+            onRecusar={() => {
+              console.log("Recusar troca:", trocaSelecionada);
+              setIsModalOpen(false);
+            }}
+          />
+        )}
+
       </Stack>
     </Stack>
   );
