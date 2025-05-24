@@ -210,10 +210,11 @@ export function Cadastro() {
                                         rules={{
                                             required: REQUIRED_FIELD,
                                             pattern: {
-                                                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                                                message: "A senha deve conter letras maiusculas, minúsculas, números e caracteres"
+                                                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/,
+                                                message: "A senha deve conter letras maiús, minús, números e caract especiais"
                                             }
                                         }}
+
                                         render={({ field }) => (
                                             <Input
                                                 {...inputProps}
