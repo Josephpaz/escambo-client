@@ -1,4 +1,5 @@
 import { TrocaService } from "@/service/post/getTrocas.service";
+import { RespostaPropostaService } from "@/service/post/putRespostaProposta.service";
 import {
   Box,
   Spinner,
@@ -11,89 +12,112 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IoFilter } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { CustomModal } from "./CustomModal";
 import { Filter } from "./Filter";
 import { ModalResposta } from "./ModalResposta";
 import { Pagination } from "./Pagination";
 import { TrocaCard } from "./TrocaCard";
 
-//const trocaId = localStorage.getItem("userId") || "";
-const trocaId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
-console.log(trocaId)
+
+
+const trocaId = localStorage.getItem("trocaId");
+
+
+const userId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
+// const userId = localStorage.getItem('userId');
+
 const ITEMS_PER_PAGE = 3;
 
 export function HistoricoTabs() {
+  const navigate = useNavigate();
+
   const [trocasEnviadas, setTrocasEnviadas] = useState<TrocaService.Troca[]>([]);
   const [trocasRecebidas, setTrocasRecebidas] = useState<TrocaService.Troca[]>([]);
 
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [trocaSelecionada, setTrocaSelecionada] = useState<TrocaService.Troca | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [currentTab, setCurrentTab] = useState<"enviadas" | "recebidas">("enviadas");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);      // Loading do fetch
+  const [loadingPut, setLoadingPut] = useState(false); // Loading do PUT (responderTroca)
   const [error, setError] = useState<string | null>(null);
 
-  // Escolhe o array correto baseado na aba atual
-  const trocasAtuais = currentTab === "enviadas" ? trocasEnviadas : trocasRecebidas;
-  const trocasArray = Array.isArray(trocasAtuais) ? trocasAtuais : [];
+  const [showFilter, setShowFilter] = useState(false);
 
-  // Aplica filtro por status (se nenhum selecionado, mostra todos)
-  const trocasFiltradas = trocasArray.filter(
+  async function fetchTrocas() {
+    setLoading(true);
+    setError(null);
+    try {
+      const historico = await TrocaService.getHistoricoTroca(userId, currentTab);
+      if (currentTab === "enviadas") {
+        setTrocasEnviadas(historico);
+      } else {
+        setTrocasRecebidas(historico);
+      }
+    } catch (err) {
+      setError((err as Error).message);
+      if (currentTab === "enviadas") {
+        setTrocasEnviadas([]);
+      } else {
+        setTrocasRecebidas([]);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function responderTroca(resposta: "aceita" | "recusada") {
+    setLoadingPut(true);
+    try {
+      await RespostaPropostaService.putRespostaProposta(String(trocaId), resposta);
+      setFormSubmitted(true);
+      setIsCustomModalOpen(true);
+      setIsModalOpen(false);
+      await fetchTrocas();
+    } catch {
+      setFormSubmitted(false);
+      setIsCustomModalOpen(true);
+    } finally {
+      setLoadingPut(false);
+    }
+  }
+
+  // Limpa troca selecionada ao fechar o modal
+  useEffect(() => {
+    if (!isModalOpen) {
+      setTrocaSelecionada(null);
+    }
+  }, [isModalOpen]);
+
+  // UseEffect para carregar trocas e resetar página quando aba ou filtro mudam
+  useEffect(() => {
+    fetchTrocas();
+    setCurrentPage(1);
+    setShowFilter(false);
+  }, [currentTab]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedStatus]);
+
+  const trocasAtuais = currentTab === "enviadas" ? trocasEnviadas : trocasRecebidas;
+
+  const trocasFiltradas = trocasAtuais.filter(
     (troca) =>
       selectedStatus.length === 0 || selectedStatus.includes(troca.status.toUpperCase())
   );
 
-  // Paginação aplicada sobre o array filtrado
   const totalItems = trocasFiltradas.length;
   const totalPages = Math.max(Math.ceil(totalItems / ITEMS_PER_PAGE), 1);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const trocasPaginadas = trocasFiltradas.slice(startIndex, endIndex);
-
-  const [showFilter, setShowFilter] = useState(false);
-
-  useEffect(() => {
-    async function fetchTrocas() {
-      setLoading(true);
-      setError(null);
-      try {
-        const historico = await TrocaService.getHistoricoTroca(trocaId, currentTab);
-        if (currentTab === "enviadas") {
-          setTrocasEnviadas(historico);
-        } else {
-          setTrocasRecebidas(historico);
-        }
-      } catch (err) {
-        setError((err as Error).message);
-        if (currentTab === "enviadas") {
-          setTrocasEnviadas([]);
-        } else {
-          setTrocasRecebidas([]);
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchTrocas();
-  }, [currentTab]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedStatus, currentTab]);
-
-  // Fecha filtro ao trocar aba
-  useEffect(() => {
-    setShowFilter(false);
-  }, [currentTab]);
-
-
-  // Reseta página quando filtro ou aba mudam para evitar página inválida
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedStatus, currentTab]);
 
   const handlePageChange = (page: number) => setCurrentPage(page);
 
@@ -108,7 +132,6 @@ export function HistoricoTabs() {
           defaultValue="enviadas"
           onValueChange={(details) => {
             setCurrentTab(details.value as "enviadas" | "recebidas");
-            setCurrentPage(1);
           }}
         >
           <TabsList gap={4} position="relative">
@@ -139,7 +162,7 @@ export function HistoricoTabs() {
                 color="#606266"
                 size={18}
                 aria-label="Abrir filtros"
-                onClick={() => setShowFilter(!showFilter)}
+                onClick={() => setShowFilter((prev) => !prev)}
                 cursor="pointer"
               />
             </Box>
@@ -180,7 +203,6 @@ export function HistoricoTabs() {
                     setIsModalOpen(true);
                   }}
                 />
-
               ))}
           </TabsContent>
         </TabsRoot>
@@ -203,24 +225,33 @@ export function HistoricoTabs() {
           >
             <Filter value={selectedStatus} onChange={setSelectedStatus} />
           </Box>
-
         )}
 
         {trocaSelecionada && (
           <ModalResposta
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            onAceitar={() => {
-              console.log("Aceitar troca:", trocaSelecionada);
-              setIsModalOpen(false);
-            }}
-            onRecusar={() => {
-              console.log("Recusar troca:", trocaSelecionada);
-              setIsModalOpen(false);
-            }}
+            onResposta={responderTroca}
+            isLoading={loadingPut}
           />
         )}
 
+        {isCustomModalOpen && (
+          <CustomModal
+            isOpen={isCustomModalOpen}
+            onClose={() => {
+              setIsCustomModalOpen(false);
+              if (formSubmitted) navigate("/history");
+            }}
+            title="Proposta de Troca"
+            isError={!formSubmitted}
+            message={
+              formSubmitted
+                ? "Sua resposta foi enviada com sucesso!"
+                : "Ocorreu um erro ao tentar enviar sua resposta. Tente novamente mais tarde."
+            }
+          />
+        )}
       </Stack>
     </Stack>
   );

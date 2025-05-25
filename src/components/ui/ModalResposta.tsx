@@ -3,25 +3,20 @@ import { Box, Button, Flex, Text } from "@chakra-ui/react";
 interface ModalRespostaBoxProps {
     isOpen: boolean;
     onClose: () => void;
-    onAceitar: () => void;
-    onRecusar: () => void;
+    onResposta: (resposta: "aceita" | "recusada") => void;
+    isLoading?: boolean;
 }
 
 export function ModalResposta({
     isOpen,
     onClose,
-    onAceitar,
-    onRecusar,
+    onResposta,
+    isLoading = false,
 }: ModalRespostaBoxProps) {
     if (!isOpen) return null;
 
-    const handleAceitar = () => {
-        onAceitar();
-        onClose();
-    };
-
-    const handleRecusar = () => {
-        onRecusar();
+    const handleResposta = (resposta: "aceita" | "recusada") => {
+        onResposta(resposta);
         onClose();
     };
 
@@ -77,17 +72,31 @@ export function ModalResposta({
                     </Button>
                 </Flex>
 
-
                 <Flex direction="column" alignItems="center" padding={4}>
                     <Text mb={8} fontSize={15} color="#4A4F59">
                         Desejas <strong>aceitar</strong> ou <strong>recusar</strong> a troca?
                     </Text>
 
                     <Box display="flex" justifyContent="center" gap={4} mt={3}>
-                        <Button size="md" bg="#1DAF87" color="white" _hover={{ bg: "#17a178" }} mr={10} onClick={handleAceitar}>
+                        <Button
+                            size="md"
+                            bg="#1DAF87"
+                            color="white"
+                            _hover={{ bg: "#17a178" }}
+                            mr={10}
+                            onClick={() => handleResposta("aceita")}
+                            disabled={isLoading}
+                        >
                             Aceitar
                         </Button>
-                        <Button size="md" bg="#F94649" color="white" _hover={{ bg: "#e43b3d" }} onClick={handleRecusar}>
+                        <Button
+                            size="md"
+                            bg="#F94649"
+                            color="white"
+                            _hover={{ bg: "#e43b3d" }}
+                            onClick={() => handleResposta("recusada")}
+                            disabled={isLoading}
+                        >
                             Recusar
                         </Button>
                     </Box>
