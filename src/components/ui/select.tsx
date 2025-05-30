@@ -39,11 +39,14 @@ export function SelectCustom(props: SelectProps) {
   });
 
   return (
-    <Select.Root collection={collection} {...restProps}>
+    <Select.Root collection={collection}
+    
+    borderColor={'#E2E8F0'}
+    {...restProps}>
       <Select.HiddenSelect />
       {label && <Select.Label color="#373E4B">{label}</Select.Label>}
       <Select.Control>
-        <Select.Trigger css={styles}>
+        <Select.Trigger css={styles} borderColor={'#E2E8F0'}>
           <Select.ValueText placeholder={placeholder} />
         </Select.Trigger>
         <Select.IndicatorGroup>
@@ -53,7 +56,7 @@ export function SelectCustom(props: SelectProps) {
       </Select.Control>
       <Portal>
         <Select.Positioner>
-          <Select.Content background={"white"} color={"#1d1d20"}>
+          <Select.Content background={"white"} color={"#1d1d20"} borderColor={'#E2E8F0'}>
             {collection.items.map((item) => (
               <Select.Item
                 key={item.value}

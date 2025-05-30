@@ -104,7 +104,7 @@ export function UploadImagem({ onChangeBase64 }: UploadImagemProps) {
     }
 
     return (
-        <HStack maxW="700px" mx="auto" p={4} flexDirection="column" spaceX={4}>
+        <HStack maxW="700px" mx="auto" margin={0} flexDirection="column">
             <chakra.label
                 htmlFor="file-upload"
                 cursor="pointer"
@@ -116,6 +116,7 @@ export function UploadImagem({ onChangeBase64 }: UploadImagemProps) {
                 p={4}
                 w="126px"
                 h="106px"
+                border='1px dashed #A0AEC0'
                 borderRadius="md"
                 _hover={{ bg: 'gray.50' }}
                 transition="background 0.2s"

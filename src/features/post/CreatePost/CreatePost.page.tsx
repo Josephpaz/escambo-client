@@ -23,7 +23,7 @@ type CreatePostForm = {
   images: string[];
 };
 
-const categorias = [
+export const categorias = [
   { label: "Eletrônicos", value: "eletronicos" },
   { label: "Roupas", value: "roupas" },
   { label: "Livros", value: "livros" },
