@@ -1,4 +1,4 @@
-import LogoPng from "@/../public/Logomarca.png";
+import LogoPng from '@/assets/imgs/Logomarca.png';
 import {Box, Flex, Image, Link, LinkProps, Stack, Text} from "@chakra-ui/react";
 import {Avatar} from "./Avatar";
 import {CustomBreadcrumb} from "./CustomBreadcrumb";

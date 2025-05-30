@@ -22,6 +22,7 @@ export function CustomBreadcrumb() {
     const href = `/${pathnames.slice(0, index + 1).join("/")}`;
     const isLast = index === pathnames.length - 1;
 
+    
     return (
       <>
         <BreadcrumbItem key={href}>
@@ -30,7 +31,7 @@ export function CustomBreadcrumb() {
             color={isLast ? "#373E4B" : "#232D3D"}
             _hover={{color: "teal.700", textDecoration: "underline"}}
             fontWeight={isLast ? "semibold" : "normal"}
-          >
+            >
             {routeNameMap[segment] || segment}
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -38,7 +39,9 @@ export function CustomBreadcrumb() {
       </>
     );
   });
-
+  
+  console.log(crumbs)
+  
   return (
     <Stack p={5} ml={5}>
       <BreadcrumbRoot
