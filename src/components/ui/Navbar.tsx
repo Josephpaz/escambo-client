@@ -26,7 +26,7 @@ export function RenderLink(props: RenderLinkProps) {
 
 const childrenLinks: ChildrenLinks[] = [
   {
-    href: "history",
+    href: "/history/",
     children: (
       <Text
         color="white"
@@ -41,7 +41,7 @@ const childrenLinks: ChildrenLinks[] = [
   },
 
   {
-    href: "post",
+    href: "/post/",
     children: (
       <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
         Incluir Item
@@ -50,7 +50,7 @@ const childrenLinks: ChildrenLinks[] = [
   },
 
   {
-    href: "favorits",
+    href: "/favorits/",
     children: (
       <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
         Favoritos

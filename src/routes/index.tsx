@@ -8,18 +8,25 @@ import { CreatePost } from "@/features/post/CreatePost/CreatePost.page";
 import { PostDetail } from "@/features/post/PostDetail/PostDetail";
 import { BrowserRouter, Route, Routes } from "react-router";
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 export function AppRouter() {
+
+  const queryClient = new QueryClient()
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="history" index element={<HistoricoTrocas />} />
-          <Route path="post" element={<CreatePost />} />
-          <Route path="post/:id" element={<PostDetail/>}/>
-          <Route path="favorits" element={<Favoritos />} />
-        </Route>
-        <Route path="register" element={<Cadastro />} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="history" index element={<HistoricoTrocas />} />
+            <Route path="post" element={<CreatePost />} />
+            <Route path="post/:id" element={<PostDetail />} />
+            <Route path="favorits" element={<Favoritos />} />
+          </Route>
+          <Route path="register" element={<Cadastro />} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }

@@ -5,7 +5,7 @@ import { PageLoader } from "@/components/ui/PageLoader";
 import { SelectCustom } from "@/components/ui/select";
 import { UploadImagem } from "@/components/ui/UploadImagem";
 import { REQUIRED_FIELD } from "@/helpers/constants.helper";
-import { PostService } from "@/service/post/postPostagem.service";
+import { PostService } from "@/service/post/index.service";
 import {
   Button,
   Stack,
