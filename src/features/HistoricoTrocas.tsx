@@ -1,5 +1,5 @@
-import { HistoricoTabs } from "@/components/ui/HistoricoTabs"; // ajuste o caminho se necessário
-import { Box, Stack, Text } from "@chakra-ui/react";
+import {HistoricoTabs} from "@/components/ui/HistoricoTabs"; // ajuste o caminho se necessário
+import {Box, Stack} from "@chakra-ui/react";
 
 export function HistoricoTrocas() {
   return (

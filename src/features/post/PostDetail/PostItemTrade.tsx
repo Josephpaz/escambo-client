@@ -228,7 +228,7 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
                     message: "O título deve ter no máximo 20 caracteres",
                   },
                 }}
-                render={({field, fieldState: {error}}) => (
+                render={({field}) => (
                   <Input
                     placeholder="item"
                     size="xs"

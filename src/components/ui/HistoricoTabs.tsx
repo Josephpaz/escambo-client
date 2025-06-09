@@ -1,5 +1,5 @@
-import { TrocaService } from "@/service/post/getTrocas.service";
-import { RespostaPropostaService } from "@/service/post/putRespostaProposta.service";
+import {TrocaService} from "@/service/post/getTrocas.service";
+import {RespostaPropostaService} from "@/service/post/putRespostaProposta.service";
 import {
   Box,
   Spinner,
@@ -10,21 +10,18 @@ import {
   TabsTrigger,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { IoFilter } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import { CustomModal } from "./CustomModal";
-import { Filter } from "./Filter";
-import { ModalResposta } from "./ModalResposta";
-import { Pagination } from "./Pagination";
-import { TrocaCard } from "./TrocaCard";
-
-
+import {useEffect, useState} from "react";
+import {IoFilter} from "react-icons/io5";
+import {useNavigate} from "react-router-dom";
+import {CustomModal} from "./CustomModal";
+import {Filter} from "./Filter";
+import {ModalResposta} from "./ModalResposta";
+import {Pagination} from "./Pagination";
+import {TrocaCard} from "./TrocaCard";
 
 const trocaId = localStorage.getItem("trocaId");
 
-
-const userId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
+const userId = "90c8242e-0b7f-4ec8-a235-70a6401e5886";
 // const userId = localStorage.getItem('userId');
 
 const ITEMS_PER_PAGE = 3;
@@ -32,19 +29,26 @@ const ITEMS_PER_PAGE = 3;
 export function HistoricoTabs() {
   const navigate = useNavigate();
 
-  const [trocasEnviadas, setTrocasEnviadas] = useState<TrocaService.Troca[]>([]);
-  const [trocasRecebidas, setTrocasRecebidas] = useState<TrocaService.Troca[]>([]);
+  const [trocasEnviadas, setTrocasEnviadas] = useState<TrocaService.Troca[]>(
+    []
+  );
+  const [trocasRecebidas, setTrocasRecebidas] = useState<TrocaService.Troca[]>(
+    []
+  );
 
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
-  const [trocaSelecionada, setTrocaSelecionada] = useState<TrocaService.Troca | null>(null);
+  const [trocaSelecionada, setTrocaSelecionada] =
+    useState<TrocaService.Troca | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const [currentTab, setCurrentTab] = useState<"enviadas" | "recebidas">("enviadas");
+  const [currentTab, setCurrentTab] = useState<"enviadas" | "recebidas">(
+    "enviadas"
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [loading, setLoading] = useState(false);      // Loading do fetch
+  const [loading, setLoading] = useState(false); // Loading do fetch
   const [loadingPut, setLoadingPut] = useState(false); // Loading do PUT (responderTroca)
   const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +58,10 @@ export function HistoricoTabs() {
     setLoading(true);
     setError(null);
     try {
-      const historico = await TrocaService.getHistoricoTroca(userId, currentTab);
+      const historico = await TrocaService.getHistoricoTroca(
+        userId,
+        currentTab
+      );
       if (currentTab === "enviadas") {
         setTrocasEnviadas(historico);
       } else {
@@ -75,7 +82,10 @@ export function HistoricoTabs() {
   async function responderTroca(resposta: "aceita" | "recusada") {
     setLoadingPut(true);
     try {
-      await RespostaPropostaService.putRespostaProposta(String(trocaId), resposta);
+      await RespostaPropostaService.putRespostaProposta(
+        String(trocaId),
+        resposta
+      );
       setFormSubmitted(true);
       setIsCustomModalOpen(true);
       setIsModalOpen(false);
@@ -106,11 +116,13 @@ export function HistoricoTabs() {
     setCurrentPage(1);
   }, [selectedStatus]);
 
-  const trocasAtuais = currentTab === "enviadas" ? trocasEnviadas : trocasRecebidas;
+  const trocasAtuais =
+    currentTab === "enviadas" ? trocasEnviadas : trocasRecebidas;
 
   const trocasFiltradas = trocasAtuais.filter(
     (troca) =>
-      selectedStatus.length === 0 || selectedStatus.includes(troca.status.toUpperCase())
+      selectedStatus.length === 0 ||
+      selectedStatus.includes(troca.status.toUpperCase())
   );
 
   const totalItems = trocasFiltradas.length;
@@ -137,8 +149,8 @@ export function HistoricoTabs() {
           <TabsList gap={4} position="relative">
             <TabsTrigger
               value="enviadas"
-              _selected={{ color: "#24B384" }}
-              _focus={{ boxShadow: "none" }}
+              _selected={{color: "#24B384"}}
+              _focus={{boxShadow: "none"}}
               bg="transparent"
               color="#4A4F59"
               px={2}
@@ -148,8 +160,8 @@ export function HistoricoTabs() {
             </TabsTrigger>
             <TabsTrigger
               value="recebidas"
-              _selected={{ color: "#24B384" }}
-              _focus={{ boxShadow: "none" }}
+              _selected={{color: "#24B384"}}
+              _focus={{boxShadow: "none"}}
               bg="transparent"
               color="#4A4F59"
               px={2}

@@ -1,5 +1,5 @@
 import {Box, Flex, Text} from "@chakra-ui/react";
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import "./post-detail.css";
 import {useQuery} from "@tanstack/react-query";
 import {PostService} from "@/service/post/index.service";
@@ -14,11 +14,7 @@ export function PostDetail() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const {id: postId} = useParams<{id: string}>();
 
-  const {
-    data: postDetailResponse,
-    isLoading,
-    isSuccess,
-  } = useQuery({
+  const {data: postDetailResponse, isLoading} = useQuery({
     queryKey: ["postDetail", postId],
     queryFn: async () => {
       return await PostService.getById(postId!);
