@@ -25,6 +25,7 @@ import {FaWhatsapp} from "react-icons/fa6";
 import {REQUIRED_FIELD} from "@/helpers/constants.helper";
 import {TradeService} from "@/service/trade/index.service";
 import {useMutation} from "@tanstack/react-query";
+import {useNavigate} from "react-router-dom";
 
 type PostItemTradeProps = {
   post: any;
@@ -50,9 +51,10 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
     },
   });
 
+  const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
   const [tradeId, setTradeId] = useState<string>("");
-  const [files, setFiles] = useState<File>();
+  const [file, setFile] = useState<File>();
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFiles = event.target.files;
@@ -82,23 +84,26 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
       return new File([file], newName, {type: file.type});
     });
 
-    setFiles(renamedFiles[0]);
+    setFile(renamedFiles[0]);
 
     event.target.value = "";
   }
 
   function removeFile() {
-    setFiles(undefined);
+    setFile(undefined);
   }
 
   const handleSendMessage = () => {
     const phone = "55" + userPhone.replace(/\D/g, "");
-    const message = "Olá! Tenho interesse no seu anúncio.";
+    const message = `Olá! Tenho interesse no seu anúncio. O código da minha proposta é: ${tradeId
+      .slice(0, 6)
+      .toUpperCase()}`;
     const url = `https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
       message
     )}`;
     window.open(url, "_blank");
     setOpen(false);
+    navigate("/");
   };
 
   const {
@@ -117,7 +122,13 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
         postagem_id: postId,
       };
 
-      return await TradeService.createTrade(payload);
+      const {
+        data: {id},
+      } = await TradeService.createTrade(payload);
+
+      setTradeId(id);
+
+      await TradeService.uploadImage(id, file!);
     },
     onSettled: () => setOpen(true),
   });
@@ -143,7 +154,7 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
               flexDirection="column"
               position={"relative"}
             >
-              {files ? (
+              {file ? (
                 <>
                   <Box position="absolute" top={-2} right={-2} zIndex={9999}>
                     <X
@@ -152,7 +163,7 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
                       cursor={"pointer"}
                     />
                   </Box>
-                  <Image w="126px" h="106px" src={URL.createObjectURL(files)} />
+                  <Image w="126px" h="106px" src={URL.createObjectURL(file)} />
                 </>
               ) : (
                 <chakra.label
@@ -281,7 +292,10 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
           </Button>
         }
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          navigate("/");
+        }}
         title={"Envio de Proposta"}
         isError={isError}
         message={

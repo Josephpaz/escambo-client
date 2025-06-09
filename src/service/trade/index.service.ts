@@ -1,6 +1,19 @@
 import {API} from "@/axios";
 
 export namespace TradeService {
+  export type TradeDomain = {
+    id: string;
+    postagem_id: string;
+    interessado_id: string;
+    dono_postagem_id: string;
+    descricao: string;
+    nome: string;
+    categoria: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+  };
+
   export type CreateProps = {
     postagem_id: string;
     dono_postagem_id: string;
@@ -14,7 +27,7 @@ export namespace TradeService {
 const baseURL = "/trocas";
 export class TradeService {
   static createTrade(payload: TradeService.CreateProps) {
-    type Response = string;
+    type Response = TradeService.TradeDomain;
     return API.post<Response>(`${baseURL}`, payload);
   }
 
