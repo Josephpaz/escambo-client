@@ -1,33 +1,28 @@
-import { CustomModal } from "@/components/ui/CustomModal";
-import { Field } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { PageLoader } from "@/components/ui/PageLoader";
-import { SelectCustom } from "@/components/ui/select";
-import { UploadImagem } from "@/components/ui/UploadImagem";
-import { REQUIRED_FIELD } from "@/helpers/constants.helper";
-import { PostService } from "@/service/post/postPostagem.service";
-import {
-  Button,
-  Stack,
-  Text,
-  Textarea
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import {CustomModal} from "@/components/ui/CustomModal";
+import {Field} from "@/components/ui/field";
+import {Input} from "@/components/ui/input";
+import {PageLoader} from "@/components/ui/PageLoader";
+import {SelectCustom} from "@/components/ui/select";
+import {UploadImagem} from "@/components/ui/UploadImagem";
+import {REQUIRED_FIELD} from "@/helpers/constants.helper";
+import {PostService} from "@/service/post/index.service";
+import {Button, Stack, Text, Textarea} from "@chakra-ui/react";
+import {useEffect, useState} from "react";
+import {Controller, useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
 
 type CreatePostForm = {
   title: string;
   categoryId: string[];
   description: string;
-  images: string[];
+  images: File[];
 };
 
-const categorias = [
-  { label: "Eletrônicos", value: "eletronicos" },
-  { label: "Roupas", value: "roupas" },
-  { label: "Livros", value: "livros" },
-  { label: "Outros", value: "outros" },
+export const categorias = [
+  {label: "Eletrônicos", value: "eletronicos"},
+  {label: "Roupas", value: "roupas"},
+  {label: "Livros", value: "livros"},
+  {label: "Outros", value: "outros"},
 ];
 
 export function CreatePost() {
@@ -35,18 +30,23 @@ export function CreatePost() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
 
   const {
     handleSubmit,
     control,
-    trigger,
+    formState: {errors},
     setValue,
-    formState: { errors },
   } = useForm<CreatePostForm>({
     defaultValues: {
-      title: "",
-      categoryId: [],
-      description: "",
+      title: "Geladeira doméstica e industrial, seminova",
+      description: `What is Lorem Ipsum?
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+`,
+      categoryId: ["eletronicos"],
       images: [],
     },
   });
@@ -55,20 +55,26 @@ export function CreatePost() {
     setIsLoading(true);
 
     //const userId = localStorage.getItem("userId") || "";
-    const userId = "4ee1c8f7-5e46-4c12-9b6a-465b88bddaa3";
+    const userId = "e39d3ce2-0668-48f7-9f37-6f68dea674a4";
 
-    console.log(userId)
+    console.log(userId);
 
     const payload: PostService.CreateProps = {
       categoria: data.categoryId[0],
       descricao: data.description,
-      imagem_url: data.images[0],
       titulo: data.title,
       user_id: userId,
     };
 
     try {
-      await PostService.create(payload);
+      const {
+        data: {id},
+      } = await PostService.create(payload);
+
+      for (const image of data.images) {
+        await PostService.uploadImage(id, image);
+      }
+
       setFormSubmitted(true);
     } catch (err) {
       setFormSubmitted(false);
@@ -76,11 +82,13 @@ export function CreatePost() {
       setIsLoading(false);
       setOpen(true);
     }
-
   };
 
   const onClose = () => setOpen(false);
 
+  useEffect(() => {
+    setValue("images", files);
+  }, [files]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -101,11 +109,16 @@ export function CreatePost() {
               control={control}
               rules={{
                 required: REQUIRED_FIELD,
-                minLength: { value: 5, message: "O título deve ter pelo menos 3 caracteres" },
-                maxLength: { value: 20, message: "O título deve ter no máximo 20 caracteres" }
+                minLength: {
+                  value: 5,
+                  message: "O título deve ter pelo menos 5 caracteres",
+                },
+                maxLength: {
+                  value: 20,
+                  message: "O título deve ter no máximo 20 caracteres",
+                },
               }}
-
-              render={({ field }) => (
+              render={({field}) => (
                 <Input
                   visual="without-border"
                   placeholder="Título do produto"
@@ -123,8 +136,8 @@ export function CreatePost() {
             <Controller
               name="categoryId"
               control={control}
-              rules={{ required: REQUIRED_FIELD }}
-              render={({ field }) => (
+              rules={{required: REQUIRED_FIELD}}
+              render={({field}) => (
                 <SelectCustom
                   label="Categoria"
                   visual="without-border"
@@ -134,7 +147,7 @@ export function CreatePost() {
                   size="xs"
                   width="360px"
                   value={field.value}
-                  onValueChange={({ value }) => field.onChange(value)}
+                  onValueChange={({value}) => field.onChange(value)}
                   isClearable
                 />
               )}
@@ -152,9 +165,12 @@ export function CreatePost() {
               control={control}
               rules={{
                 required: REQUIRED_FIELD,
-                minLength: { value: 10, message: "A descrição deve ter pelo menos 10 caracteres" }
+                minLength: {
+                  value: 10,
+                  message: "A descrição deve ter pelo menos 10 caracteres",
+                },
               }}
-              render={({ field }) => (
+              render={({field}) => (
                 <Textarea
                   fontSize="xs"
                   bg="white"
@@ -171,26 +187,20 @@ export function CreatePost() {
             control={control}
             rules={{
               validate: (val) =>
-                val && val.length > 0 || "É necessário enviar pelo menos uma imagem",
+                (val && val.length > 0) ||
+                "É necessário enviar pelo menos uma imagem",
             }}
-            render={({ field }) => (
+            render={({field}) => (
               <Field
                 label="Fotos"
                 color="#373E4B"
                 errorText={errors.images?.message}
                 invalid={!!errors.images}
               >
-                <UploadImagem
-                  onChangeBase64={(base64List) => {
-                    field.onChange(base64List);
-                    setValue("images", base64List);
-                    trigger("images");
-                  }}
-                />
+                <UploadImagem files={field.value} setFiles={setFiles} />
               </Field>
             )}
           />
-
 
           <Button
             colorPalette={"blue"}
@@ -202,21 +212,20 @@ export function CreatePost() {
           >
             Incluir Item
           </Button>
-
         </Stack>
       </Stack>
       <CustomModal
         isOpen={open}
         onClose={() => {
           onClose();
-          if (formSubmitted) navigate('/')
+          if (formSubmitted) navigate("/");
         }}
-        title={formSubmitted ? 'Cadastro Realizado' : 'Erro no Cadastro'}
+        title={formSubmitted ? "Cadastro Realizado" : "Erro no Cadastro"}
         isError={!formSubmitted}
         message={
           formSubmitted
-            ? 'Cadastro realizado com sucesso!'
-            : 'Ocorreu um erro ao tentar cadastrar. Tente novamente.'
+            ? "Cadastro realizado com sucesso!"
+            : "Ocorreu um erro ao tentar cadastrar. Tente novamente."
         }
       />
     </form>

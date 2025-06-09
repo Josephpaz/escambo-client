@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Portal, Text } from "@chakra-ui/react";
+import {Box, Button, Flex, Portal, Text} from "@chakra-ui/react";
 
 interface CustomModalProps {
   isOpen: boolean;
@@ -6,9 +6,17 @@ interface CustomModalProps {
   title: string;
   message: string;
   isError?: boolean;
+  ActionButton?: React.ReactNode;
 }
 
-export function CustomModal({ isOpen, onClose, title, message, isError = false}: CustomModalProps) {
+export function CustomModal({
+  isOpen,
+  onClose,
+  title,
+  message,
+  ActionButton,
+  isError = false,
+}: CustomModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -50,20 +58,32 @@ export function CustomModal({ isOpen, onClose, title, message, isError = false}:
           >
             {/* Ícone SVG do X */}
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-              <path d="M6 6L14 14M6 14L14 6" stroke="#4A5568" strokeWidth="2" strokeLinecap="round"/>
+              <path
+                d="M6 6L14 14M6 14L14 6"
+                stroke="#4A5568"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </Button>
 
-          <Text mb={2} fontSize={"18px"} fontWeight="bolder" color="#2D3748" >
+          <Text mb={2} fontSize={"18px"} fontWeight="bolder" color="#2D3748">
             {title}
           </Text>
-          <Text mb={6} mt={7} fontSize={"16px"} color="#2D3748" >
+          <Text mb={6} mt={7} fontSize={"16px"} color="#2D3748">
             {message}
           </Text>
-          <Flex justify="flex-end">
-            <Button onClick={onClose} bg={isError ? "#F94649" : "#1DAF87" } color={"white"} fontWeight={"bold"} size={"sm"}>
+          <Flex justify="flex-end" gap={4}>
+            <Button
+              onClick={onClose}
+              bg={isError ? "#F94649" : ActionButton ? "gray" : "#1DAF87"}
+              color={"white"}
+              fontWeight={"bold"}
+              size={"sm"}
+            >
               Fechar
             </Button>
+            {ActionButton}
           </Flex>
         </Box>
       </Flex>
