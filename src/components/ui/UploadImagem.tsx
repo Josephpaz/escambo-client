@@ -16,7 +16,7 @@ type UploadImagemProps = {
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
-function generateId(length = 6) {
+export function generateId(length = 6) {
   const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
   for (let i = 0; i < length; i++) {

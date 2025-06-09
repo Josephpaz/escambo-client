@@ -67,11 +67,12 @@ It was popularised in the 1960s with the release of Letraset sheets containing L
     };
 
     try {
-      console.log(data);
-      await PostService.create(payload);
+      const {
+        data: {id},
+      } = await PostService.create(payload);
 
       for (const image of data.images) {
-        await PostService.uploadImage(payload.user_id, image);
+        await PostService.uploadImage(id, image);
       }
 
       setFormSubmitted(true);
@@ -217,7 +218,7 @@ It was popularised in the 1960s with the release of Letraset sheets containing L
         isOpen={open}
         onClose={() => {
           onClose();
-          // if (formSubmitted) navigate("/");
+          if (formSubmitted) navigate("/");
         }}
         title={formSubmitted ? "Cadastro Realizado" : "Erro no Cadastro"}
         isError={!formSubmitted}

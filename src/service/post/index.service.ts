@@ -11,7 +11,10 @@ export namespace PostService {
 const baseUrl = "/postagens";
 export class PostService {
   static create(payload: PostService.CreateProps) {
-    type Response = "Postagem inserida/atualizada com sucesso";
+    type Response = {
+      id: "string";
+      message: "string";
+    };
     return API.post<Response>(baseUrl, payload);
   }
 
@@ -33,6 +36,7 @@ export class PostService {
       categoria: string;
       descricao: string;
       titulo: string;
+      imagens: string[];
       user_id: string;
     };
     return API.get<Response>(`${baseUrl}/${id}/detalhes`);
