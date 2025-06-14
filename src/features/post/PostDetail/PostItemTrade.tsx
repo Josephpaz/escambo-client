@@ -16,7 +16,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import {MoveRight, X} from "lucide-react";
-import {categorias} from "../CreatePost/CreatePost.page";
+import {categories} from "../CreatePost/CreatePost.page";
 import {useState} from "react";
 import {FiUpload} from "react-icons/fi";
 import {Controller, useForm} from "react-hook-form";
@@ -252,7 +252,7 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
                     label="Categoria"
                     visual="without-border"
                     placeholder="Selecione a categoria"
-                    options={categorias}
+                    options={categories}
                     color="#373E4B"
                     size="xs"
                     width="360px"

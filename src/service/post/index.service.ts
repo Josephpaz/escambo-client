@@ -1,5 +1,20 @@
 import {API} from "@/axios";
+import {Order} from "@/types";
 
+export type PostDomain = {
+  id: string;
+  bairro: string;
+  categoria: string;
+  cidade: string;
+  criacao_em: string;
+  descricao: string;
+  estado: string;
+  imagens: string[];
+  nome_usuario: string;
+  status: true;
+  titulo: string;
+  user_id: string;
+};
 export namespace PostService {
   export type CreateProps = {
     titulo: string;
@@ -7,6 +22,15 @@ export namespace PostService {
     user_id: string;
     categoria: string;
   };
+
+  export type GetAllParams = {
+    categoria?: string;
+    ordenacao?: Order;
+    limite?: number;
+    pagina?: number;
+  };
+
+  export type GetAllResponse = PostDomain[];
 }
 const baseUrl = "/postagens";
 export class PostService {
@@ -40,5 +64,9 @@ export class PostService {
       user_id: string;
     };
     return API.get<Response>(`${baseUrl}/${id}/detalhes`);
+  }
+
+  static getAll(params: PostService.GetAllParams) {
+    return API.get<PostService.GetAllResponse>(baseUrl, {params});
   }
 }
