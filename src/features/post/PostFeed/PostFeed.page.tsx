@@ -9,14 +9,13 @@ import {useNavigate} from "react-router-dom";
 
 export function PostFeed() {
   const navigate = useNavigate();
-  const categoriesLabel = useMemo(() => categories.map((el) => el.label), []);
 
   const {data: postEletronicsFeedResponse} = useQuery({
     queryKey: ["postEletronicFeed"],
     queryFn: async () => {
       return await PostService.getAll({
-        categoria: categoriesLabel[0],
-        ordenacao: Order.ASC,
+        categoria: categories[0].value,
+        ordenacao: Order.DESC,
       });
     },
   });
@@ -24,8 +23,8 @@ export function PostFeed() {
     queryKey: ["postClothesFeed"],
     queryFn: async () => {
       return await PostService.getAll({
-        categoria: categoriesLabel[1],
-        ordenacao: Order.ASC,
+        categoria: categories[1].value,
+        ordenacao: Order.DESC,
       });
     },
   });
@@ -33,8 +32,8 @@ export function PostFeed() {
     queryKey: ["postBooksFeed"],
     queryFn: async () => {
       return await PostService.getAll({
-        categoria: categoriesLabel[2],
-        ordenacao: Order.ASC,
+        categoria: categories[2].value,
+        ordenacao: Order.DESC,
       });
     },
   });
@@ -56,7 +55,7 @@ export function PostFeed() {
       {(postEletronicsFeed ?? [])?.length > 0 && (
         <Box display={"flex"} flexDir={"column"} gap={"12px"} w="fit-content">
           <Text fontSize={"32px"} fontWeight={"bold"} color={"#1DAF87"}>
-            {categoriesLabel[0]}
+            {categories[0].label}
           </Text>
           <Box
             display={"flex"}
@@ -80,7 +79,7 @@ export function PostFeed() {
       {(postClothesFeed ?? [])?.length > 0 && (
         <Box display={"flex"} flexDir={"column"} gap={"12px"} w="fit-content">
           <Text fontSize={"32px"} fontWeight={"bold"} color={"#1DAF87"}>
-            {categoriesLabel[1]}
+            {categories[1].label}
           </Text>
           <Box
             display={"flex"}
@@ -104,7 +103,7 @@ export function PostFeed() {
       {(postBooksFeed ?? [])?.length > 0 && (
         <Box display={"flex"} flexDir={"column"} gap={"12px"} w="fit-content">
           <Text fontSize={"32px"} fontWeight={"bold"} color={"#1DAF87"}>
-            {categoriesLabel[2]}
+            {categories[2].label}
           </Text>
           <Box
             display={"flex"}
