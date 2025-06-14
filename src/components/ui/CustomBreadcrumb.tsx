@@ -6,7 +6,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import React from "react";
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 const routeNameMap: Record<string, string> = {
   "": "Home",
@@ -16,23 +16,23 @@ const routeNameMap: Record<string, string> = {
 };
 
 const isUUID = (str: string) =>
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(str);
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    str
+  );
 
 export function CustomBreadcrumb() {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter(Boolean);
 
-  let crumbs: { label: string; href: string }[] = [];
+  let crumbs: {label: string; href: string}[] = [];
 
   if (pathnames.length === 0) {
     crumbs = [];
   } else if (pathnames.length === 1) {
     const label = routeNameMap[pathnames[0]] || pathnames[0];
-    crumbs = [{ label, href: location.pathname }];
-  
+    crumbs = [{label, href: location.pathname}];
   } else if (pathnames.length === 2 && isUUID(pathnames[1])) {
-    crumbs = [{ label: "Detalhes do Item", href: location.pathname }];
-  
+    crumbs = [{label: "Detalhes do Item", href: location.pathname}];
   } else {
     crumbs = pathnames.map((segment, i) => {
       const href = "/" + pathnames.slice(0, i + 1).join("/");
@@ -56,7 +56,7 @@ export function CustomBreadcrumb() {
         <BreadcrumbItem>
           <BreadcrumbLink
             href="/"
-            _hover={{ color: "teal.700", textDecoration: "underline" }}
+            _hover={{color: "teal.700", textDecoration: "underline"}}
           >
             Home
           </BreadcrumbLink>
@@ -72,7 +72,7 @@ export function CustomBreadcrumb() {
                 <BreadcrumbLink
                   href={crumb.href}
                   color={isLast ? "#373E4B" : "#232D3D"}
-                  _hover={{ color: "teal.700", textDecoration: "underline" }}
+                  _hover={{color: "teal.700", textDecoration: "underline"}}
                   fontWeight={isLast ? "semibold" : "normal"}
                 >
                   {crumb.label}

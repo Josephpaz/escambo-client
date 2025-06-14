@@ -18,7 +18,7 @@ type CreatePostForm = {
   images: File[];
 };
 
-export const categorias = [
+export const categories = [
   {label: "Eletrônicos", value: "eletronicos"},
   {label: "Roupas", value: "roupas"},
   {label: "Livros", value: "livros"},
@@ -137,7 +137,7 @@ export function CreatePost() {
                   label="Categoria"
                   visual="without-border"
                   placeholder="Selecione a categoria"
-                  options={categorias}
+                  options={categories}
                   color="#373E4B"
                   size="xs"
                   width="360px"
