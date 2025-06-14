@@ -21,7 +21,7 @@ import {TrocaCard} from "./TrocaCard";
 
 const trocaId = localStorage.getItem("trocaId");
 
-const userId = "90c8242e-0b7f-4ec8-a235-70a6401e5886";
+const userId = "a175a1b6-1c8b-4b9c-a67f-1a939a97232e";
 // const userId = localStorage.getItem('userId');
 
 const ITEMS_PER_PAGE = 3;

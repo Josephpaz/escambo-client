@@ -118,7 +118,7 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
         nome: data.name,
         descricao: "",
         dono_postagem_id: post.user_id,
-        interessado_id: "90c8242e-0b7f-4ec8-a235-70a6401e5886",
+        interessado_id: "a175a1b6-1c8b-4b9c-a67f-1a939a97232e",
         postagem_id: postId,
       };
 
