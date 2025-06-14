@@ -21,17 +21,19 @@ export function CardPost({post, onClick}: CardPostProps) {
       onClick={onClick}
     >
       <Card.Header p={0}>
-        <Image
-          src={post?.imagens[0]}
-          maxW={"200px"}
-          maxHeight={"180px"}
-          borderTopRadius={"10px"}
-        />
+        {post?.imagens && post?.imagens[0] && (
+          <Image
+            src={post?.imagens[0]}
+            boxSize="200px"
+            objectFit="contain"
+            borderTopRadius="10px"
+          />
+        )}
       </Card.Header>
       <Card.Body m={0} px={"10px"}>
         <Text
           color="#373E4B"
-          mt={2}
+          // mt={2}
           w={"170px"}
           textAlign={"start"}
           fontWeight={"bold"}

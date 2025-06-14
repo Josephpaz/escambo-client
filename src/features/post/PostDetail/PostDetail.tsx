@@ -38,6 +38,8 @@ export function PostDetail() {
     return postUserDetailResponse?.data;
   }, [postUserDetailResponse]);
 
+  console.log(postDetail?.imagens);
+
   function handleClick(idx: number) {
     setCurrentSlide(idx);
     setIsOpen(true);
