@@ -90,22 +90,35 @@ export function PostImagesCarouselModal({
           <Box position="absolute" top={3} right={4} zIndex={9999}>
             <X onClick={onClose} color="#373E4B" cursor={"pointer"} />
           </Box>
-          <Slider ref={sliderRef} {...settings}>
-            {images.map((src, idx) => (
-              <Box key={idx}>
-                <Image
-                  src={src}
-                  alt={`Image ${idx}`}
-                  mx="auto"
-                  boxSize={"200px"}
-                  maxH="40vh"
-                  maxW="40vw"
-                  objectFit="contain"
-                  borderRadius="md"
-                />
-              </Box>
-            ))}
-          </Slider>
+          {images.length > 1 ? (
+            <Slider ref={sliderRef} {...settings}>
+              {images.map((src, idx) => (
+                <Box key={idx}>
+                  <Image
+                    src={src}
+                    alt={`Image ${idx}`}
+                    mx="auto"
+                    boxSize={"200px"}
+                    maxH="40vh"
+                    maxW="40vw"
+                    objectFit="contain"
+                    borderRadius="md"
+                  />
+                </Box>
+              ))}
+            </Slider>
+          ) : (
+            <Image
+              src={images[0]}
+              alt={`Image solo`}
+              mx="auto"
+              boxSize={"200px"}
+              maxH="40vh"
+              maxW="40vw"
+              objectFit="contain"
+              borderRadius="md"
+            />
+          )}
           <Box
             mt="2rem"
             overflowX="auto"
