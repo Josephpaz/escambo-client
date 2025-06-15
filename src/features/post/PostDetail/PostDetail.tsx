@@ -8,9 +8,9 @@ import {PostImagesCarouselModal} from "./PostImagesCarouselModal";
 import {PostItemTrade} from "./PostItemTrade";
 import {useParams} from "react-router-dom";
 import {UserService} from "@/service/user/index.service";
-import {Heart, ToggleLeft} from "lucide-react";
+import {Heart} from "lucide-react";
 import {FavoriteService} from "@/service/favorite/index.service";
-import {toaster, Toaster} from "@/components/ui/toaster";
+import {toaster} from "@/components/ui/toaster";
 
 export function PostDetail() {
   const [isOpen, setIsOpen] = useState(false);
@@ -124,7 +124,7 @@ export function PostDetail() {
             images={postDetail?.imagens || []}
             handleClick={handleClick}
           />
-          <Box>
+          <Box mt={4}>
             <Flex alignItems={"center"} justifyContent={"space-between"}>
               <Text textStyle="3xl" color="#373E4B" fontWeight="700">
                 {postDetail?.titulo}
