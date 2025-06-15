@@ -1,9 +1,12 @@
 import {formatDate} from "@/helpers/formatters.helper";
-import {FavoriteService} from "@/service/favorite/index.service";
+// import {FavoriteService} from "@/service/favorite/index.service";
 import {PostDomain} from "@/service/post/index.service";
 import {Box, Card, Flex, Image, Text} from "@chakra-ui/react";
-import {useMutation} from "@tanstack/react-query";
-import {Heart, MapPin} from "lucide-react";
+// import {useMutation} from "@tanstack/react-query";
+import {
+  // Heart,
+  MapPin,
+} from "lucide-react";
 
 type CardPostProps = {
   post: PostDomain;
