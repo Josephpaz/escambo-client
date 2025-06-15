@@ -19,6 +19,7 @@ export function PostFeed() {
       });
     },
   });
+
   const {data: postClothesFeedResponse} = useQuery({
     queryKey: ["postClothesFeed"],
     queryFn: async () => {
@@ -28,6 +29,7 @@ export function PostFeed() {
       });
     },
   });
+
   const {data: postBooksFeedResponse} = useQuery({
     queryKey: ["postBooksFeed"],
     queryFn: async () => {

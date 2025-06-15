@@ -1,6 +1,8 @@
 import {formatDate} from "@/helpers/formatters.helper";
+import {FavoriteService} from "@/service/favorite/index.service";
 import {PostDomain} from "@/service/post/index.service";
 import {Box, Card, Flex, Image, Text} from "@chakra-ui/react";
+import {useMutation} from "@tanstack/react-query";
 import {Heart, MapPin} from "lucide-react";
 
 type CardPostProps = {
@@ -9,6 +11,18 @@ type CardPostProps = {
 };
 
 export function CardPost({post, onClick}: CardPostProps) {
+  // const {mutateAsync: createFavorite} = useMutation({
+  //   mutationFn: FavoriteService.create,
+  // });
+
+  // async function handleCreateFavorite() {
+  //   const payload: FavoriteService.CreateProps = {
+  //     postagem_id: post.id,
+  //     user_id: "a175a1b6-1c8b-4b9c-a67f-1a939a97232e",
+  //   };
+  //   await createFavorite(payload);
+  // }
+
   return (
     <Card.Root
       w="200px"
@@ -60,11 +74,11 @@ export function CardPost({post, onClick}: CardPostProps) {
           <Box
             onClick={(e) => {
               e.stopPropagation();
-              console.log("Clicou no coração");
+              // handleCreateFavorite();
             }}
             cursor="pointer"
           >
-            <Heart size={20} color="#373E4B" />
+            {/* <Heart size={20} color="#373E4B" fill="#f56565" /> */}
           </Box>
         </Flex>
       </Card.Footer>
