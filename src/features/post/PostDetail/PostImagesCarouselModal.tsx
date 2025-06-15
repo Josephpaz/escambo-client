@@ -98,9 +98,9 @@ export function PostImagesCarouselModal({
                     src={src}
                     alt={`Image ${idx}`}
                     mx="auto"
-                    boxSize={"200px"}
-                    maxH="40vh"
-                    maxW="40vw"
+                    boxSize={"300px"}
+                    maxH="50vh"
+                    maxW="50vw"
                     objectFit="contain"
                     borderRadius="md"
                   />
@@ -112,7 +112,7 @@ export function PostImagesCarouselModal({
               src={images[0]}
               alt={`Image solo`}
               mx="auto"
-              boxSize={"200px"}
+              boxSize={"300px"}
               maxH="40vh"
               maxW="40vw"
               objectFit="contain"
