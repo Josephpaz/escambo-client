@@ -1,4 +1,5 @@
 import {API} from "@/axios";
+import {PostDomain} from "../post/index.service";
 
 export namespace FavoriteService {
   export type CreateProps = {
@@ -6,6 +7,7 @@ export namespace FavoriteService {
     user_id: string;
   };
   export type DeleteProps = CreateProps;
+  export type GetAllProps = {userId: string};
 }
 
 const baseUrl = "/favoritos";
@@ -21,8 +23,8 @@ export class FavoriteService {
     return API.delete<Response>(`${baseUrl}`, {data: payload});
   }
 
-  static async getAll() {
-    type Response = string[];
-    return API.get<Response>(`${baseUrl}`);
+  static async getAll({userId}: FavoriteService.GetAllProps) {
+    type Response = PostDomain[];
+    return API.get<Response>(`${baseUrl}/${userId}`);
   }
 }

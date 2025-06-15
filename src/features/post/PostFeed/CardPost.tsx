@@ -29,7 +29,7 @@ export function CardPost({post, onClick}: CardPostProps) {
   return (
     <Card.Root
       w="200px"
-      h="327px"
+      h="340px"
       minW="200px"
       minH="327px"
       bg="#FFFFFF"
