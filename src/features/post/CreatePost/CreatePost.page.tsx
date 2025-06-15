@@ -50,7 +50,7 @@ export function CreatePost() {
     setIsLoading(true);
 
     //const userId = localStorage.getItem("userId") || "";
-    const userId = "4c02d404-51f8-4b7e-ad94-7023eb53aaf8";
+    const userId = "a1111111-1111-1111-1111-111111111111";
 
     console.log(userId);
 
