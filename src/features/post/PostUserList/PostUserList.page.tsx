@@ -23,7 +23,7 @@ export function PostUserList() {
   }, [postUserListResponse]);
 
   return (
-    <Box display={"flex"} flexDir={"column"} gap={"5rem"}>
+    <Box display={"flex"} flexDir={"column"}>
       {(postUserList ?? [])?.length > 0 && (
         <Box display={"flex"} flexDir={"column"} gap={"12px"}>
           <Text
@@ -37,7 +37,7 @@ export function PostUserList() {
           <Box
             display={"flex"}
             flexWrap={"wrap"}
-            gap={"12px"}
+            gap={"25px"}
             w={"80vw"}
             py={4}
             m={0}
