@@ -1,15 +1,15 @@
 import {Box, Text} from "@chakra-ui/react";
 import {useQuery} from "@tanstack/react-query";
 import {useMemo} from "react";
-import {CardPost} from "@/features/post/PostFeed/CardPost";
 import {useNavigate} from "react-router-dom";
 import {PostService} from "@/service/post/index.service";
 import {CardPostDetails} from "../PostFeed/CardPostDetails";
+import {PageLoader} from "@/components/ui/PageLoader";
 
 export function PostUserList() {
   const navigate = useNavigate();
 
-  const {data: postUserListResponse} = useQuery({
+  const {data: postUserListResponse, isPending} = useQuery({
     queryKey: ["postUserList"],
     queryFn: async () => {
       return await PostService.getAll({
@@ -22,6 +22,8 @@ export function PostUserList() {
   const postUserList = useMemo(() => {
     return postUserListResponse?.data;
   }, [postUserListResponse]);
+
+  if (isPending) return <PageLoader />;
 
   return (
     <Box display={"flex"} flexDir={"column"}>

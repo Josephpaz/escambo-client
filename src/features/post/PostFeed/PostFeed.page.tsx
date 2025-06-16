@@ -6,11 +6,15 @@ import {categories} from "../CreatePost/CreatePost.page";
 import {CardPost} from "./CardPost";
 import {Order} from "@/types";
 import {useNavigate} from "react-router-dom";
+import {PageLoader} from "@/components/ui/PageLoader";
 
 export function PostFeed() {
   const navigate = useNavigate();
 
-  const {data: postEletronicsFeedResponse} = useQuery({
+  const {
+    data: postEletronicsFeedResponse,
+    isPending: postEletronicsFeedPending,
+  } = useQuery({
     queryKey: ["postEletronicFeed"],
     queryFn: async () => {
       return await PostService.getAll({
@@ -20,25 +24,27 @@ export function PostFeed() {
     },
   });
 
-  const {data: postClothesFeedResponse} = useQuery({
-    queryKey: ["postClothesFeed"],
-    queryFn: async () => {
-      return await PostService.getAll({
-        categoria: categories[1].value,
-        ordenacao: Order.DESC,
-      });
-    },
-  });
+  const {data: postClothesFeedResponse, isPending: postClothesFeedPending} =
+    useQuery({
+      queryKey: ["postClothesFeed"],
+      queryFn: async () => {
+        return await PostService.getAll({
+          categoria: categories[1].value,
+          ordenacao: Order.DESC,
+        });
+      },
+    });
 
-  const {data: postBooksFeedResponse} = useQuery({
-    queryKey: ["postBooksFeed"],
-    queryFn: async () => {
-      return await PostService.getAll({
-        categoria: categories[2].value,
-        ordenacao: Order.DESC,
-      });
-    },
-  });
+  const {data: postBooksFeedResponse, isPending: postBooksFeedPending} =
+    useQuery({
+      queryKey: ["postBooksFeed"],
+      queryFn: async () => {
+        return await PostService.getAll({
+          categoria: categories[2].value,
+          ordenacao: Order.DESC,
+        });
+      },
+    });
 
   const postEletronicsFeed = useMemo(() => {
     return postEletronicsFeedResponse?.data;
@@ -51,6 +57,13 @@ export function PostFeed() {
   const postBooksFeed = useMemo(() => {
     return postBooksFeedResponse?.data;
   }, [postBooksFeedResponse]);
+
+  if (
+    postEletronicsFeedPending ||
+    postClothesFeedPending ||
+    postBooksFeedPending
+  )
+    return <PageLoader />;
 
   return (
     <Box display={"flex"} flexDir={"column"} gap={"5rem"}>

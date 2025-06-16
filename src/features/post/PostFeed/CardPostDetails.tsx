@@ -8,9 +8,12 @@ import {
   Portal,
   Text,
 } from "@chakra-ui/react";
-import {PostDomain} from "@/service/post/index.service";
+import {PostDomain, PostService} from "@/service/post/index.service";
 import {EllipsisVertical, MapPin, SquarePen, Trash2} from "lucide-react";
 import {formatDate} from "@/helpers/formatters.helper";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {toaster} from "@/components/ui/toaster";
+import {PageLoader} from "@/components/ui/PageLoader";
 
 type CardPostProps = {
   post: PostDomain;
@@ -18,6 +21,29 @@ type CardPostProps = {
 };
 
 export function CardPostDetails({post, onClick}: CardPostProps) {
+  const queryClient = useQueryClient();
+  const queryState = queryClient.getQueryState(["postUserList"]);
+  const isPostsLoading = queryState?.status === "pending";
+
+  const {mutate: deletePost, isPending: isDeleting} = useMutation({
+    mutationFn: (postId: string) => PostService.delete(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["postUserList"]});
+      toaster.create({
+        title: "Postagem deletada com sucesso",
+        type: "success",
+      });
+    },
+    onError: () => {
+      toaster.create({
+        title: "Erro ao deletar a postagem",
+        type: "error",
+      });
+    },
+  });
+
+  if (isDeleting || isPostsLoading) return <PageLoader />;
+
   return (
     <Flex
       flexWrap={"wrap"}
@@ -114,7 +140,10 @@ export function CardPostDetails({post, onClick}: CardPostProps) {
                   <Menu.Item
                     value="delete-post"
                     _hover={{bg: "gray.200"}}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deletePost(post.id);
+                    }}
                   >
                     <Trash2 size={15} color="#373E4B" />
                     <Text color="#373E4B" fontSize="12px">

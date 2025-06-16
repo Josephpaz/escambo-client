@@ -70,4 +70,9 @@ export class PostService {
   static getAll(params: PostService.GetAllParams) {
     return API.get<PostService.GetAllResponse>(baseUrl, {params});
   }
+
+  static delete(id: string) {
+    type Response = string;
+    return API.delete<Response>(`${baseUrl}/${id}`);
+  }
 }

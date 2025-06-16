@@ -5,11 +5,12 @@ import {categories} from "../CreatePost/CreatePost.page";
 import {CardPost} from "@/features/post/PostFeed/CardPost";
 import {useNavigate} from "react-router-dom";
 import {FavoriteService} from "@/service/favorite/index.service";
+import {PageLoader} from "@/components/ui/PageLoader";
 
 export function FavoriteList() {
   const navigate = useNavigate();
 
-  const {data: favoriteListResponse} = useQuery({
+  const {data: favoriteListResponse, isPending} = useQuery({
     queryKey: ["favoriteList"],
     queryFn: async () => {
       return await FavoriteService.getAll({
@@ -21,6 +22,8 @@ export function FavoriteList() {
   const favoriteList = useMemo(() => {
     return favoriteListResponse?.data;
   }, [favoriteListResponse]);
+
+  if (isPending) return <PageLoader />;
 
   return (
     <Box display={"flex"} flexDir={"column"} gap={"5rem"}>
