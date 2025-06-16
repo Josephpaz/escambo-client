@@ -1,8 +1,8 @@
 import {Box, Flex, Text} from "@chakra-ui/react";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import "./post-detail.css";
-import {useMutation, useQuery} from "@tanstack/react-query";
-import {PostService} from "@/service/post/index.service";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {PostDomain, PostService} from "@/service/post/index.service";
 import {PostImages} from "./PostImages";
 import {PostImagesCarouselModal} from "./PostImagesCarouselModal";
 import {PostItemTrade} from "./PostItemTrade";
@@ -11,9 +11,13 @@ import {UserService} from "@/service/user/index.service";
 import {Heart} from "lucide-react";
 import {FavoriteService} from "@/service/favorite/index.service";
 import {toaster} from "@/components/ui/toaster";
+import {PageLoader} from "@/components/ui/PageLoader";
 
 export function PostDetail() {
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
+  const queryState = queryClient.getQueryState(["favoriteList"]);
+  const favoritesPost = (queryState?.data as {data?: PostDomain[]})?.data || [];
   const [toggleHeart, setToggleHeart] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const {id: postId} = useParams<{id: string}>();
@@ -41,8 +45,6 @@ export function PostDetail() {
   const postUserDetail = useMemo(() => {
     return postUserDetailResponse?.data;
   }, [postUserDetailResponse]);
-
-  console.log(postDetail?.imagens);
 
   const {mutateAsync: createFavorite} = useMutation({
     mutationFn: FavoriteService.create,
@@ -82,6 +84,13 @@ export function PostDetail() {
     },
   });
 
+  useEffect(() => {
+    console.log(favoritesPost);
+    setToggleHeart(
+      favoritesPost?.map((el) => el.id)?.includes(postId!) || false
+    );
+  }, [favoritesPost]);
+
   async function handleCreateFavorite() {
     if (postId) {
       if (!toggleHeart) {
@@ -107,7 +116,7 @@ export function PostDetail() {
     setIsOpen(true);
   }
 
-  if (isLoading) return;
+  if (isLoading || !postId || !postDetail) return <PageLoader />;
 
   return (
     <>
