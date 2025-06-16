@@ -32,6 +32,7 @@ export function PostUserList() {
             fontWeight={"bold"}
             color={"#1DAF87"}
             textAlign={"center"}
+            mb={"2rem"}
           >
             Meus itens
           </Text>
