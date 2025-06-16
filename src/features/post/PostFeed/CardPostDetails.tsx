@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  Image,
-  Menu,
-  Portal,
-  Text,
-} from "@chakra-ui/react";
+import {Button, Flex, Image, Menu, Portal, Text} from "@chakra-ui/react";
 import {PostDomain, PostService} from "@/service/post/index.service";
 import {EllipsisVertical, MapPin, SquarePen, Trash2} from "lucide-react";
 import {formatDate} from "@/helpers/formatters.helper";
