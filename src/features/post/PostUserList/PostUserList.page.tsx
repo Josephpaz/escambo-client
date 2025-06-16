@@ -13,7 +13,7 @@ export function PostUserList() {
     queryKey: ["postUserList"],
     queryFn: async () => {
       return await PostService.getAll({
-        user_id: "4c02d404-51f8-4b7e-ad94-7023eb53aaf8",
+        user_id: "a1111111-1111-1111-1111-111111111111",
         limite: 100,
       });
     },
