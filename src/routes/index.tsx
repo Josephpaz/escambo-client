@@ -11,6 +11,7 @@ import {BrowserRouter, Route, Routes} from "react-router";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {PostFeed} from "@/features/post/PostFeed/PostFeed.page";
 import {FavoriteList} from "@/features/post/FavoriteList/FavoriteList.page";
+import {PostUserList} from "@/features/post/PostUserList/PostUserList.page";
 
 export function AppRouter() {
   const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ export function AppRouter() {
             <Route path="post" element={<CreatePost />} />
             <Route path="post/:id" element={<PostDetail />} />
             <Route path="favorites" element={<FavoriteList />} />
+            <Route path="user/posts" element={<PostUserList />} />
           </Route>
           <Route path="register" element={<Cadastro />} />
         </Routes>

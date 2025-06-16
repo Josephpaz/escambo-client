@@ -57,6 +57,15 @@ const childrenLinks: ChildrenLinks[] = [
       </Text>
     ),
   },
+
+  {
+    href: "/user/posts/",
+    children: (
+      <Text color="white" fontWeight="normal" fontSize={16} cursor="pointer">
+        Meus itens
+      </Text>
+    ),
+  },
 ];
 
 export function NavBar() {

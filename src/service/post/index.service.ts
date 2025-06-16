@@ -28,6 +28,7 @@ export namespace PostService {
     ordenacao?: Order;
     limite?: number;
     pagina?: number;
+    user_id?: string;
   };
 
   export type GetAllResponse = PostDomain[];
