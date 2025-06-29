@@ -43,6 +43,16 @@ export class PostService {
     return API.post<Response>(baseUrl, payload);
   }
 
+  static edit(
+    payload: Omit<PostService.CreateProps, "user_id"> & {id: string}
+  ) {
+    type Response = {
+      id: "string";
+      message: "string";
+    };
+    return API.put<Response>(baseUrl, payload);
+  }
+
   static uploadImage(id: string, file: File) {
     type Response = {
       url: string;

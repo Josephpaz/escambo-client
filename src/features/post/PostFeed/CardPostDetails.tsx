@@ -5,6 +5,7 @@ import {formatDate} from "@/helpers/formatters.helper";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {toaster} from "@/components/ui/toaster";
 import {PageLoader} from "@/components/ui/PageLoader";
+import {useNavigate} from "react-router-dom";
 
 type CardPostProps = {
   post: PostDomain;
@@ -15,6 +16,7 @@ export function CardPostDetails({post, onClick}: CardPostProps) {
   const queryClient = useQueryClient();
   const queryState = queryClient.getQueryState(["postUserList"]);
   const isPostsLoading = queryState?.status === "pending";
+  const navigate = useNavigate();
 
   const {mutate: deletePost, isPending: isDeleting} = useMutation({
     mutationFn: (postId: string) => PostService.delete(postId),
@@ -121,7 +123,10 @@ export function CardPostDetails({post, onClick}: CardPostProps) {
                   <Menu.Item
                     value="edit-post"
                     _hover={{bg: "gray.200"}}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/post/${post.id}/edit`);
+                    }}
                   >
                     <SquarePen size={15} color="#373E4B" />
                     <Text color="#373E4B" fontSize="12px">

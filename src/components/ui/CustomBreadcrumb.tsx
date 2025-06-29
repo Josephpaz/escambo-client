@@ -33,6 +33,8 @@ export function CustomBreadcrumb() {
     crumbs = [{label, href: location.pathname}];
   } else if (pathnames.length === 2 && isUUID(pathnames[1])) {
     crumbs = [{label: "Detalhes do Item", href: location.pathname}];
+  } else if (pathnames.length === 3 && isUUID(pathnames[1])) {
+    crumbs = [{label: "Edição do Item", href: location.pathname}];
   } else if (pathnames.length === 2 && pathnames[1] === "posts") {
     crumbs = [{label: "Meus itens", href: location.pathname}];
   } else {
