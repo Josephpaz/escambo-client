@@ -12,25 +12,39 @@ import {PostFeed} from "@/features/post/PostFeed/PostFeed.page";
 import {FavoriteList} from "@/features/post/FavoriteList/FavoriteList.page";
 import {PostUserList} from "@/features/post/PostUserList/PostUserList.page";
 import {EditPost} from "@/features/post/EditPost/EditPost.page";
+import {UseSessionToken} from "@/zustand";
+import {AuthPage} from "@/features/auth/Auth.page";
 
 export function AppRouter() {
   const queryClient = new QueryClient();
 
+  const isLogged = UseSessionToken((state) => state.token) !== null;
+  console.log("isLogged:", isLogged);
+
+  const publicRoutes = (
+    <Route path="/">
+      <Route index element={<AuthPage />} />
+      <Route path="register" element={<Cadastro />} />
+      <Route path="register" element={<Cadastro />} />
+    </Route>
+  );
+
+  const loggedRoutes = (
+    <Route path="/" element={<Layout />}>
+      <Route index element={<PostFeed />} />
+      <Route path="history" index element={<HistoricoTrocas />} />
+      <Route path="post" element={<CreatePost />} />
+      <Route path="post/:id" element={<PostDetail />} />
+      <Route path="post/:id/edit" element={<EditPost />} />
+      <Route path="favorites" element={<FavoriteList />} />
+      <Route path="user/posts" element={<PostUserList />} />
+    </Route>
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<PostFeed />} />
-            <Route path="history" index element={<HistoricoTrocas />} />
-            <Route path="post" element={<CreatePost />} />
-            <Route path="post/:id" element={<PostDetail />} />
-            <Route path="post/:id/edit" element={<EditPost />} />
-            <Route path="favorites" element={<FavoriteList />} />
-            <Route path="user/posts" element={<PostUserList />} />
-          </Route>
-          <Route path="register" element={<Cadastro />} />
-        </Routes>
+        <Routes>{isLogged ? loggedRoutes : publicRoutes}</Routes>
       </BrowserRouter>
     </QueryClientProvider>
   );
