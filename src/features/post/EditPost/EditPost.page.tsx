@@ -3,11 +3,10 @@ import {Field} from "@/components/ui/field";
 import {Input} from "@/components/ui/input";
 import {PageLoader} from "@/components/ui/PageLoader";
 import {SelectCustom} from "@/components/ui/select";
-import {UploadImagem} from "@/components/ui/UploadImagem";
 import {REQUIRED_FIELD} from "@/helpers/constants.helper";
 import {PostService} from "@/service/post/index.service";
 import {Button, Stack, Text, Textarea} from "@chakra-ui/react";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import {useEffect, useMemo, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
 import {useNavigate, useParams} from "react-router-dom";
@@ -29,10 +28,9 @@ export const categories = [
 export function EditPost() {
   const [open, setOpen] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, _] = useState<File[]>([]);
 
   const {id: postId} = useParams<{id: string}>();
 
@@ -42,7 +40,6 @@ export function EditPost() {
     handleSubmit,
     control,
     formState: {errors},
-    watch,
     setValue,
     reset,
   } = useForm<CreatePostForm>();
@@ -57,9 +54,7 @@ export function EditPost() {
     };
 
     try {
-      const {
-        data: {id},
-      } = await PostService.edit({...payload, id: postId!});
+      await PostService.edit({...payload, id: postId!});
 
       setFormSubmitted(true);
     } catch (err) {

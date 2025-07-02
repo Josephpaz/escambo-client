@@ -3,7 +3,6 @@ import {Box, Button, Flex, Heading, Image, Stack} from "@chakra-ui/react";
 import {CustomModal} from "@/components/ui/CustomModal";
 import {Field} from "@/components/ui/field";
 import {Input} from "@/components/ui/input";
-import {PageLoader} from "@/components/ui/PageLoader";
 import {REQUIRED_FIELD} from "@/helpers/constants.helper";
 import {
   PostRegister,
@@ -61,7 +60,8 @@ export function Cadastro() {
   const loginMutation = useMutation({
     mutationFn: async (data: AuthService.LoginPayload) =>
       AuthService.login(data),
-    onSuccess: ({token}) => {
+    onSuccess: (response) => {
+      const {token} = response.data;
       setToken({token});
       navigate("/");
       toaster.create({

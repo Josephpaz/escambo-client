@@ -1,4 +1,4 @@
-import {Box, Button, Flex, Image, Text} from "@chakra-ui/react";
+import {Button, Flex, Image, Text} from "@chakra-ui/react";
 import LogoPng from "@/assets/imgs/Logomarca.png";
 import TradeSvg from "@/assets/Ilustracao_Troca.svg";
 import {Field} from "@/components/ui/field";
@@ -6,9 +6,10 @@ import {Input} from "@/components/ui/input";
 import {Controller, useForm} from "react-hook-form";
 import {useMutation} from "@tanstack/react-query";
 import {AuthService} from "@/service/auth/index.service";
+import {UserService} from "@/service/user/index.service";
 import {toaster} from "@/components/ui/toaster";
 import {useNavigate} from "react-router-dom";
-import {UseSessionToken} from "@/zustand";
+import {UseSessionToken, UseSessionUser} from "@/zustand";
 
 type AuthForm = {
   email: string;
@@ -25,21 +26,34 @@ export function AuthPage() {
 
   const navigate = useNavigate();
   const setToken = UseSessionToken((state) => state.setToken);
+  const setUser = UseSessionUser((state) => state.setUser);
 
-  const {mutateAsync: loginMutate, isPending} = useMutation({
+  const getUserByTokenMutation = useMutation({
+    mutationFn: UserService.getByToken,
     onSuccess: (response) => {
-      const {
-        data: {token},
-      } = response;
-
-      setToken({token});
-      navigate("/");
+      setUser({...response.data});
       toaster.create({
         title: "Login realizado com sucesso",
         type: "success",
       });
+      navigate("/");
     },
+    onError: () => {
+      toaster.create({
+        title: "Erro ao buscar usuário",
+        description: "Não foi possível obter os dados do usuário",
+        type: "error",
+      });
+    },
+  });
+
+  const loginMutation = useMutation({
     mutationFn: AuthService.login,
+    onSuccess: (response) => {
+      const {token} = response.data;
+      setToken({token});
+      getUserByTokenMutation.mutate(token);
+    },
     onError: () => {
       toaster.create({
         title: "Erro ao fazer login",
@@ -49,9 +63,11 @@ export function AuthPage() {
     },
   });
 
-  function onSubmit(data: AuthForm) {
-    loginMutate({email: data.email, senha: data.password});
-  }
+  const onSubmit = (data: AuthForm) => {
+    loginMutation.mutate({email: data.email, senha: data.password});
+  };
+
+  const isLoading = loginMutation.isPending || getUserByTokenMutation.isPending;
 
   return (
     <Flex
@@ -70,19 +86,8 @@ export function AuthPage() {
         justifyContent={"center"}
       >
         <Flex alignItems={"center"} gap="2">
-          <Image
-            src={LogoPng}
-            h={58}
-            w={58}
-            cursor={"pointer"}
-            textDecoration={"none"}
-          />
-          <Text
-            color={"white"}
-            fontSize={40}
-            fontWeight={"bolder"}
-            textDecoration={"none"}
-          >
+          <Image src={LogoPng} h={58} w={58} cursor={"pointer"} />
+          <Text color={"white"} fontSize={40} fontWeight={"bolder"}>
             Escambo
           </Text>
         </Flex>
@@ -101,7 +106,7 @@ export function AuthPage() {
               >
                 <Input
                   placeholder="Digite seu e-mail"
-                  visual={"without-border"}
+                  visual="without-border"
                   {...field}
                 />
               </Field>
@@ -121,8 +126,8 @@ export function AuthPage() {
               >
                 <Input
                   type="password"
-                  placeholder="Digite sua senha senha"
-                  visual={"without-border"}
+                  placeholder="Digite sua senha"
+                  visual="without-border"
                   {...field}
                 />
               </Field>
@@ -131,20 +136,20 @@ export function AuthPage() {
         </Flex>
 
         <Button
-          colorPalette={"blue"}
+          colorPalette="blue"
           size="xs"
           fontSize="sm"
           type="submit"
-          w={"10rem"}
+          w="10rem"
           fontWeight="700"
           mt="8"
-          loading={isPending}
+          loading={isLoading}
           onClick={handleSubmit(onSubmit)}
         >
           Entrar
         </Button>
 
-        <Text fontSize={"xs"} mt="4">
+        <Text fontSize="xs" mt="4">
           Ainda não tem conta?{" "}
           <Text
             as="span"
@@ -157,8 +162,9 @@ export function AuthPage() {
           </Text>
         </Text>
       </Flex>
+
       <Flex flex="1" justifyContent="center" alignItems="center">
-        <Image src={TradeSvg} maxH={"70%"} />
+        <Image src={TradeSvg} maxH="70%" />
       </Flex>
     </Flex>
   );
