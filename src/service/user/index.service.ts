@@ -28,8 +28,11 @@ export class UserService {
       telefone: string;
       email: string;
     };
-    return API.get<Response>(`/me`, {
-      headers: {Authorization: `Bearer ${token}`},
+
+    return API.get<Response>("/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
 }

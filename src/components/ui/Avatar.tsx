@@ -1,4 +1,4 @@
-import {UseSessionToken} from "@/zustand";
+import {UseSessionToken, UseSessionUser} from "@/zustand";
 import {
   AvatarFallback,
   AvatarRoot,
@@ -15,6 +15,7 @@ import {useNavigate} from "react-router-dom";
 export function Avatar() {
   const navigate = useNavigate();
   const setToken = UseSessionToken((state) => state.setToken);
+  const user = UseSessionUser((state) => state.user);
 
   return (
     <Stack>
@@ -27,16 +28,22 @@ export function Avatar() {
           _active={{transform: "scale(0.95)"}}
           transition="all 0.2s ease"
         >
-          <AvatarFallback name={"usuario logado teste"} mb={-0.9} />
+          <AvatarFallback name={user.nome} mb={-0.9} />
         </AvatarRoot>
-        <Stack alignItems="center" py={3} gap={0}>
-          <Text color="white" fontWeight="bold" fontSize={14}>
-            {"usuario.name"}
-          </Text>
-          <Text color="white" textStyle="sm" fontWeight="light" mt={1}>
-            {"usuario.user"}
+        <Stack alignItems="center" py={3} gap={0} maxW="150px">
+          <Text
+            color="white"
+            fontWeight="bold"
+            fontSize={14}
+            whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
+            maxW="100%"
+          >
+            {user.nome}
           </Text>
         </Stack>
+
         <Menu.Root positioning={{placement: "bottom-start"}}>
           <Menu.Trigger asChild>
             <Button color="white" borderRadius={"full"} p={1}>
