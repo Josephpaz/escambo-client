@@ -19,7 +19,7 @@ export function Avatar() {
 
   return (
     <Stack>
-      <HStack gap={4} key={"usuario.user"}>
+      <HStack key={"usuario.user"}>
         <AvatarRoot
           border={"1px solid white"}
           size="xl"
@@ -30,20 +30,21 @@ export function Avatar() {
         >
           <AvatarFallback name={user.nome} mb={-0.9} />
         </AvatarRoot>
-        <Stack alignItems="center" py={3} gap={0} maxW="150px">
+        <Stack alignItems="center" py={3} gap={0} maxW="150px" ml="2">
           <Text
             color="white"
             fontWeight="bold"
             fontSize={14}
             whiteSpace="nowrap"
             overflow="hidden"
+            height="fit-content"
+            py={1}
             textOverflow="ellipsis"
             maxW="100%"
           >
             {user.nome}
           </Text>
         </Stack>
-
         <Menu.Root positioning={{placement: "bottom-start"}}>
           <Menu.Trigger asChild>
             <Button color="white" borderRadius={"full"} p={1}>

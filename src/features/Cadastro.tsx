@@ -13,9 +13,10 @@ import {useDisclosure} from "@chakra-ui/react";
 import {Controller, useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import {AuthService} from "@/service/auth/index.service";
-import {UseSessionToken} from "@/zustand";
+import {UseSessionToken, UseSessionUser} from "@/zustand";
 import {useMutation} from "@tanstack/react-query";
 import {toaster} from "@/components/ui/toaster";
+import {UserService} from "@/service/user/index.service";
 
 interface RegisterForm {
   nome: string;
@@ -44,6 +45,7 @@ export function Cadastro() {
   const navigate = useNavigate();
   const {open, onOpen, onClose} = useDisclosure();
   const setToken = UseSessionToken((state) => state.setToken);
+  const setUser = UseSessionUser((state) => state.setUser);
   const senha = watch("senha");
 
   const inputProps = {
@@ -57,12 +59,27 @@ export function Cadastro() {
     mutationFn: async (data: RegisterCreate) => await PostRegister.create(data),
   });
 
+  const getUserByTokenMutation = useMutation({
+    mutationFn: UserService.getByToken,
+    onSuccess: (response) => {
+      setUser({...response.data});
+    },
+    onError: () => {
+      toaster.create({
+        title: "Erro ao buscar usuário",
+        description: "Não foi possível obter os dados do usuário",
+        type: "error",
+      });
+    },
+  });
+
   const loginMutation = useMutation({
     mutationFn: async (data: AuthService.LoginPayload) =>
       AuthService.login(data),
     onSuccess: (response) => {
       const {token} = response.data;
       setToken({token});
+      getUserByTokenMutation.mutate(token);
       navigate("/");
       toaster.create({
         title: "Cadastro e login realizado com sucesso",
