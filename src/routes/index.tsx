@@ -22,10 +22,10 @@ export function AppRouter() {
   console.log("isLogged:", isLogged);
 
   const publicRoutes = (
-    <Route path="/">
-      <Route index element={<AuthPage />} />
-      <Route path="register" element={<Cadastro />} />
-    </Route>
+    <>
+      <Route path="/" element={<AuthPage />} />
+      <Route path="/register" element={<Cadastro />} />
+    </>
   );
 
   const loggedRoutes = (
