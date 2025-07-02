@@ -5,17 +5,17 @@ import {useNavigate} from "react-router-dom";
 import {PostService} from "@/service/post/index.service";
 import {CardPostDetails} from "../PostFeed/CardPostDetails";
 import {PageLoader} from "@/components/ui/PageLoader";
-import {UseSessionUser} from "@/zustand";
+import {useSessionStore} from "@/zustand";
 
 export function PostUserList() {
   const navigate = useNavigate();
-  const user = UseSessionUser((state) => state.user);
+  const user = useSessionStore((state) => state.user);
 
   const {data: postUserListResponse, isPending} = useQuery({
     queryKey: ["postUserList"],
     queryFn: async () => {
       return await PostService.getAll({
-        user_id: user.id,
+        user_id: user!.id,
         limite: 100,
       });
     },

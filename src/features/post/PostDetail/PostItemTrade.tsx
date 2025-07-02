@@ -26,7 +26,7 @@ import {REQUIRED_FIELD} from "@/helpers/constants.helper";
 import {TradeService} from "@/service/trade/index.service";
 import {useMutation} from "@tanstack/react-query";
 import {useNavigate} from "react-router-dom";
-import {UseSessionUser} from "@/zustand";
+import {useSessionStore} from "@/zustand";
 
 type PostItemTradeProps = {
   post: any;
@@ -56,7 +56,7 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [tradeId, setTradeId] = useState<string>("");
   const [file, setFile] = useState<File>();
-  const user = UseSessionUser((state) => state.user);
+  const user = useSessionStore((state) => state.user);
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFiles = event.target.files;
@@ -120,7 +120,7 @@ export function PostItemTrade({post, postId, userPhone}: PostItemTradeProps) {
         nome: data.name,
         descricao: "",
         dono_postagem_id: post.user_id,
-        interessado_id: user.id,
+        interessado_id: user!.id,
         postagem_id: postId,
       };
 

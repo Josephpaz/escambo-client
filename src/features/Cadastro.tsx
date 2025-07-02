@@ -6,17 +6,13 @@ import {Input} from "@/components/ui/input";
 import {REQUIRED_FIELD} from "@/helpers/constants.helper";
 import {
   PostRegister,
-  RegisterCreate,
   verificarEmail,
 } from "@/service/post/postRegister.service";
 import {useDisclosure} from "@chakra-ui/react";
 import {Controller, useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
-import {AuthService} from "@/service/auth/index.service";
-import {UseSessionToken, UseSessionUser} from "@/zustand";
 import {useMutation} from "@tanstack/react-query";
-import {toaster} from "@/components/ui/toaster";
-import {UserService} from "@/service/user/index.service";
+import {useAuth} from "@/hooks/useAuth.hook";
 
 interface RegisterForm {
   nome: string;
@@ -26,6 +22,13 @@ interface RegisterForm {
   confirmSenha: string;
 }
 
+const inputProps = {
+  _placeholder: {color: "#A0AEC0", fontWeight: "normal"},
+  color: "#232D3D",
+  w: 300,
+  h: 8,
+};
+
 export function Cadastro() {
   const {
     handleSubmit,
@@ -34,58 +37,21 @@ export function Cadastro() {
     formState: {errors},
   } = useForm<RegisterForm>({
     defaultValues: {
-      nome: "Teste login",
-      telefone: "(92)98246-5147",
-      email: "admin@example.com.br",
-      senha: "Jfp170135@",
-      confirmSenha: "Jfp170135@",
+      nome: "",
+      telefone: "",
+      email: "",
+      senha: "",
+      confirmSenha: "",
     },
   });
 
-  const navigate = useNavigate();
   const {open, onOpen, onClose} = useDisclosure();
-  const setToken = UseSessionToken((state) => state.setToken);
-  const setUser = UseSessionUser((state) => state.setUser);
+  const navigate = useNavigate();
   const senha = watch("senha");
-
-  const inputProps = {
-    _placeholder: {color: "#A0AEC0", fontWeight: "normal"},
-    color: "#232D3D",
-    w: 300,
-    h: 8,
-  };
+  const {login, isLoading} = useAuth();
 
   const registerMutation = useMutation({
-    mutationFn: async (data: RegisterCreate) => await PostRegister.create(data),
-  });
-
-  const getUserByTokenMutation = useMutation({
-    mutationFn: UserService.getByToken,
-    onSuccess: (response) => {
-      setUser({...response.data});
-    },
-    onError: () => {
-      toaster.create({
-        title: "Erro ao buscar usuário",
-        description: "Não foi possível obter os dados do usuário",
-        type: "error",
-      });
-    },
-  });
-
-  const loginMutation = useMutation({
-    mutationFn: async (data: AuthService.LoginPayload) =>
-      AuthService.login(data),
-    onSuccess: (response) => {
-      const {token} = response.data;
-      setToken({token});
-      getUserByTokenMutation.mutate(token);
-      navigate("/");
-      toaster.create({
-        title: "Cadastro e login realizado com sucesso",
-        type: "success",
-      });
-    },
+    mutationFn: PostRegister.create,
     onError: () => {
       onOpen();
     },
@@ -93,7 +59,7 @@ export function Cadastro() {
 
   const onSubmit = async (data: RegisterForm) => {
     try {
-      const payload: RegisterCreate = {
+      const payload = {
         nome: data.nome,
         telefone: data.telefone,
         email: data.email,
@@ -101,20 +67,11 @@ export function Cadastro() {
       };
 
       await registerMutation.mutateAsync(payload);
-      await loginMutation.mutateAsync({
-        email: data.email,
-        senha: data.senha,
-      });
-    } catch (error) {
-      console.error("Erro no processo de cadastro/login:", error);
-      onOpen();
+      await login.mutateAsync({email: data.email, senha: data.senha}); // reaproveita a lógica centralizada
+    } catch (err) {
+      onOpen(); // erro no login, não vai pra home
     }
   };
-
-  const isLoading = registerMutation.isPending || loginMutation.isPending;
-  const isSuccess = loginMutation.isSuccess;
-  const isError = loginMutation.isError;
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex minH="100vh" bg="#EFF1F4">
@@ -333,12 +290,12 @@ export function Cadastro() {
         isOpen={open}
         onClose={() => {
           onClose();
-          if (isSuccess) navigate("/");
+          if (login.isSuccess) navigate("/");
         }}
-        title={isSuccess ? "Cadastro Realizado" : "Erro no Cadastro"}
-        isError={isError}
+        title={login.isSuccess ? "Cadastro Realizado" : "Erro no Cadastro"}
+        isError={login.isError}
         message={
-          isSuccess
+          login.isSuccess
             ? "Cadastro realizado com sucesso!"
             : "Ocorreu um erro ao tentar cadastrar. Tente novamente mais tarde."
         }

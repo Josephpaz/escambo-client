@@ -4,12 +4,8 @@ import TradeSvg from "@/assets/Ilustracao_Troca.svg";
 import {Field} from "@/components/ui/field";
 import {Input} from "@/components/ui/input";
 import {Controller, useForm} from "react-hook-form";
-import {useMutation} from "@tanstack/react-query";
-import {AuthService} from "@/service/auth/index.service";
-import {UserService} from "@/service/user/index.service";
-import {toaster} from "@/components/ui/toaster";
 import {useNavigate} from "react-router-dom";
-import {UseSessionToken, UseSessionUser} from "@/zustand";
+import {useAuth} from "@/hooks/useAuth.hook";
 
 type AuthForm = {
   email: string;
@@ -25,49 +21,12 @@ export function AuthPage() {
   });
 
   const navigate = useNavigate();
-  const setToken = UseSessionToken((state) => state.setToken);
-  const setUser = UseSessionUser((state) => state.setUser);
 
-  const getUserByTokenMutation = useMutation({
-    mutationFn: UserService.getByToken,
-    onSuccess: (response) => {
-      setUser({...response.data});
-      toaster.create({
-        title: "Login realizado com sucesso",
-        type: "success",
-      });
-      navigate("/");
-    },
-    onError: () => {
-      toaster.create({
-        title: "Erro ao buscar usuário",
-        description: "Não foi possível obter os dados do usuário",
-        type: "error",
-      });
-    },
-  });
-
-  const loginMutation = useMutation({
-    mutationFn: AuthService.login,
-    onSuccess: (response) => {
-      const {token} = response.data;
-      setToken({token});
-      getUserByTokenMutation.mutate(token);
-    },
-    onError: () => {
-      toaster.create({
-        title: "Erro ao fazer login",
-        description: "E-mail ou senha incorretos",
-        type: "error",
-      });
-    },
-  });
+  const {login, isLoading} = useAuth();
 
   const onSubmit = (data: AuthForm) => {
-    loginMutation.mutate({email: data.email, senha: data.password});
+    login.mutate({email: data.email, senha: data.password});
   };
-
-  const isLoading = loginMutation.isPending || getUserByTokenMutation.isPending;
 
   return (
     <Flex

@@ -1,3 +1,4 @@
+import {useSessionStore} from "@/zustand";
 import axios from "axios";
 
 export const API = axios.create({
@@ -7,12 +8,11 @@ export const API = axios.create({
   },
 });
 
-API.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+API.interceptors.request.use((config) => {
+  const token = useSessionStore.getState().token;
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
 API.interceptors.response.use(
   (response) => response,

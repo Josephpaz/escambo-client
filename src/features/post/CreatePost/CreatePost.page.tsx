@@ -6,7 +6,7 @@ import {SelectCustom} from "@/components/ui/select";
 import {UploadImagem} from "@/components/ui/UploadImagem";
 import {REQUIRED_FIELD} from "@/helpers/constants.helper";
 import {PostService} from "@/service/post/index.service";
-import {UseSessionUser} from "@/zustand";
+import {useSessionStore} from "@/zustand";
 import {Button, Stack, Text, Textarea} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
@@ -32,7 +32,7 @@ export function CreatePost() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const user = UseSessionUser((state) => state.user);
+  const user = useSessionStore((state) => state.user);
 
   const {
     handleSubmit,
@@ -55,7 +55,7 @@ export function CreatePost() {
       categoria: data.categoryId[0],
       descricao: data.description,
       titulo: data.title,
-      user_id: user.id,
+      user_id: user!.id,
     };
 
     try {

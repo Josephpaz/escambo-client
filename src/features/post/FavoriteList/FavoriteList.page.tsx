@@ -6,17 +6,17 @@ import {CardPost} from "@/features/post/PostFeed/CardPost";
 import {useNavigate} from "react-router-dom";
 import {FavoriteService} from "@/service/favorite/index.service";
 import {PageLoader} from "@/components/ui/PageLoader";
-import {UseSessionUser} from "@/zustand";
+import {useSessionStore} from "@/zustand";
 
 export function FavoriteList() {
   const navigate = useNavigate();
-  const user = UseSessionUser((state) => state.user);
+  const user = useSessionStore((state) => state.user);
 
   const {data: favoriteListResponse, isPending} = useQuery({
     queryKey: ["favoriteList"],
     queryFn: async () => {
       return await FavoriteService.getAll({
-        userId: user.id,
+        userId: user!.id,
       });
     },
   });

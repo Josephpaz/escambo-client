@@ -1,46 +1,32 @@
-import {UserService} from "@/service/user/index.service";
 import {create} from "zustand";
 import {persist} from "zustand/middleware";
 
-type SessionToken = {
+type User = {
+  id: string;
+  nome: string;
+  email: string;
+  telefone: string;
+};
+
+type SessionState = {
   token: string | null;
-  setToken: ({token}: {token: string | null}) => void;
-  clearToken: () => void;
+  user: User | null;
+  setToken: (token: string) => void;
+  setUser: (user: User) => void;
+  reset: () => void;
 };
 
-type SessionUser = {
-  user: UserService.GetUser;
-  setUser: (user: UserService.GetUser) => void;
-  clearUser: () => void;
-};
-
-export const UseSessionToken = create<SessionToken>()(
+export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       token: null,
-      setToken: ({token}) => set({token}),
-      clearToken: () => set({token: null}),
+      user: null,
+      setToken: (token) => set({token}),
+      setUser: (user) => set({user}),
+      reset: () => set({token: null, user: null}),
     }),
     {
-      name: "session-token",
-    }
-  )
-);
-
-export const UseSessionUser = create<SessionUser>()(
-  persist(
-    (set) => ({
-      user: {
-        email: "",
-        id: "",
-        nome: "",
-        telefone: "",
-      },
-      setUser: (user: UserService.GetUser) => set({user}),
-      clearUser: () => set({user: {email: "", id: "", nome: "", telefone: ""}}),
-    }),
-    {
-      name: "session-user",
+      name: "session-storage", // chave do localStorage
     }
   )
 );
