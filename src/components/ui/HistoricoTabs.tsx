@@ -18,16 +18,15 @@ import {Filter} from "./Filter";
 import {ModalResposta} from "./ModalResposta";
 import {Pagination} from "./Pagination";
 import {TrocaCard} from "./TrocaCard";
+import {UseSessionUser} from "@/zustand";
 
 const trocaId = localStorage.getItem("trocaId");
-
-const userId = "a175a1b6-1c8b-4b9c-a67f-1a939a97232e";
-// const userId = localStorage.getItem('userId');
 
 const ITEMS_PER_PAGE = 3;
 
 export function HistoricoTabs() {
   const navigate = useNavigate();
+  const user = UseSessionUser((state) => state.user);
 
   const [trocasEnviadas, setTrocasEnviadas] = useState<TrocaService.Troca[]>(
     []
@@ -59,7 +58,7 @@ export function HistoricoTabs() {
     setError(null);
     try {
       const historico = await TrocaService.getHistoricoTroca(
-        userId,
+        user.id,
         currentTab
       );
       if (currentTab === "enviadas") {

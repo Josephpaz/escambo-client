@@ -6,6 +6,7 @@ import {SelectCustom} from "@/components/ui/select";
 import {UploadImagem} from "@/components/ui/UploadImagem";
 import {REQUIRED_FIELD} from "@/helpers/constants.helper";
 import {PostService} from "@/service/post/index.service";
+import {UseSessionUser} from "@/zustand";
 import {Button, Stack, Text, Textarea} from "@chakra-ui/react";
 import {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
@@ -31,6 +32,7 @@ export function CreatePost() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+  const user = UseSessionUser((state) => state.user);
 
   const {
     handleSubmit,
@@ -49,16 +51,11 @@ export function CreatePost() {
   const onSubmit = async (data: CreatePostForm) => {
     setIsLoading(true);
 
-    //const userId = localStorage.getItem("userId") || "";
-    const userId = "a1111111-1111-1111-1111-111111111111";
-
-    console.log(userId);
-
     const payload: PostService.CreateProps = {
       categoria: data.categoryId[0],
       descricao: data.description,
       titulo: data.title,
-      user_id: userId,
+      user_id: user.id,
     };
 
     try {
