@@ -146,7 +146,13 @@ export function AuthPage() {
 
         <Text fontSize={"xs"} mt="4">
           Ainda não tem conta?{" "}
-          <Text as="span" color="blue" fontWeight="bold" cursor="pointer">
+          <Text
+            as="span"
+            color="blue"
+            fontWeight="bold"
+            cursor="pointer"
+            onClick={() => navigate("/register")}
+          >
             Cadastre-se aqui
           </Text>
         </Text>

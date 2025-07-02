@@ -25,7 +25,6 @@ export function AppRouter() {
     <Route path="/">
       <Route index element={<AuthPage />} />
       <Route path="register" element={<Cadastro />} />
-      <Route path="register" element={<Cadastro />} />
     </Route>
   );
 
