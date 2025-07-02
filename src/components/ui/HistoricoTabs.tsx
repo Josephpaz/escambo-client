@@ -19,14 +19,14 @@ import {ModalResposta} from "./ModalResposta";
 import {Pagination} from "./Pagination";
 import {TrocaCard} from "./TrocaCard";
 import {useSessionStore} from "@/zustand";
-
-const trocaId = localStorage.getItem("trocaId");
+import {TradeRatingModal} from "./TradeRateModal";
 
 const ITEMS_PER_PAGE = 3;
 
 export function HistoricoTabs() {
   const navigate = useNavigate();
   const user = useSessionStore((state) => state.user);
+  const [rateTradeOpen, setRateTradeOpen] = useState(false);
 
   const [trocasEnviadas, setTrocasEnviadas] = useState<TrocaService.Troca[]>(
     []
@@ -82,9 +82,14 @@ export function HistoricoTabs() {
     setLoadingPut(true);
     try {
       await RespostaPropostaService.putRespostaProposta(
-        String(trocaId),
+        String(trocaSelecionada?.id_proposta),
         resposta
       );
+
+      if (resposta === "aceita") {
+        setRateTradeOpen(true);
+      }
+
       setFormSubmitted(true);
       setIsCustomModalOpen(true);
       setIsModalOpen(false);
@@ -263,6 +268,12 @@ export function HistoricoTabs() {
             }
           />
         )}
+
+        <TradeRatingModal
+          isOpen={rateTradeOpen}
+          onClose={() => setRateTradeOpen(false)}
+          onSubmit={() => {}}
+        />
       </Stack>
     </Stack>
   );

@@ -67,9 +67,9 @@ export function Cadastro() {
       };
 
       await registerMutation.mutateAsync(payload);
-      await login.mutateAsync({email: data.email, senha: data.senha}); // reaproveita a lógica centralizada
+      await login.mutateAsync({email: data.email, senha: data.senha});
     } catch (err) {
-      onOpen(); // erro no login, não vai pra home
+      onOpen();
     }
   };
   return (

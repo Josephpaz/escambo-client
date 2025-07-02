@@ -1,5 +1,5 @@
 // TrocaService.ts
-import { API } from "@/axios";
+import {API} from "@/axios";
 
 export namespace TrocaService {
   export interface Produto {
@@ -11,6 +11,7 @@ export namespace TrocaService {
   }
 
   export interface Troca {
+    id_proposta: string;
     produto_postagem: Produto;
     produto_proposta_troca: Produto;
     status: string;
@@ -26,7 +27,7 @@ export namespace TrocaService {
       const response = await API.get<GetHistoricoRawResponse>(
         `/trocas/${id}/historico`,
         {
-          params: { tipo },
+          params: {tipo},
         }
       );
 
